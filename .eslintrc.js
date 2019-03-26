@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = {
   root: true,
   env: {
@@ -8,8 +10,16 @@ module.exports = {
     '@vue/standard'
   ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-console': isProduction ? 'error' : 'off',
+    'no-debugger': isProduction ? 'error' : 'off',
+    'space-before-function-paren': [
+      isProduction ? 'error' : 'off',
+      {
+        anonymous: 'always',
+        named: 'never',
+        syncArrow: 'always'
+      }
+    ]
   },
   parserOptions: {
     parser: 'babel-eslint'

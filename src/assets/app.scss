@@ -1,0 +1,31 @@
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+  font-family: 'Microsoft JhengHei', serif;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin: 0 auto 1rem;
+  max-width: 500px;
+  box-shadow: 0 4px 9px rgba($black, 0.5);
+}
+.card-body {
+  padding: 1.25rem;
+}
