@@ -1,20 +1,22 @@
 <template>
   <div>
-    <router-link
-      v-if="listId && prevId"
-      :to="audioTo(prevId)"
-      :class="btnPrevCls"
-      :title="btnPrevTitle"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="prevBtnPath" />
-      </svg>
-    </router-link>
-    <div v-if="!prevId" :class="btnPrevCls" :title="btnText.prev">
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="prevBtnPath" />
-      </svg>
-    </div>
+    <template v-if="listId">
+      <router-link
+        v-if="prevId"
+        :to="audioTo(prevId)"
+        :class="btnPrevCls"
+        :title="btnPrevTitle"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+          <path class="svg-fill" :d="prevBtnPath" />
+        </svg>
+      </router-link>
+      <div v-else :class="btnPrevCls" :title="btnText.prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+          <path class="svg-fill" :d="prevBtnPath" />
+        </svg>
+      </div>
+    </template>
 
     <button :class="btnCls(playMode)" @click="play" :title="btnText[playMode]">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
@@ -34,21 +36,23 @@
       </svg>
     </button>
 
-    <router-link
-      v-if="listId && nextId"
-      :to="audioTo(nextId)"
-      :class="btnNextCls"
-      :title="btnNextTitle"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="nextBtnPath" />
-      </svg>
-    </router-link>
-    <div v-if="!nextId" :class="btnNextCls" :title="btnText.next">
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="nextBtnPath" />
-      </svg>
-    </div>
+    <template v-if="listId">
+      <router-link
+        v-if="nextId"
+        :to="audioTo(nextId)"
+        :class="btnNextCls"
+        :title="btnNextTitle"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+          <path class="svg-fill" :d="nextBtnPath" />
+        </svg>
+      </router-link>
+      <div v-else :class="btnNextCls" :title="btnText.next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+          <path class="svg-fill" :d="nextBtnPath" />
+        </svg>
+      </div>
+    </template>
   </div>
 </template>
 

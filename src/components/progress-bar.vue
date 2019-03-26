@@ -135,7 +135,7 @@ export default {
   mounted() {
     this.bar = this.$refs.progressbar
   },
-  destroyed: function() {
+  destroyed() {
     window.removeEventListener('mousedown', this.dragstart)
     window.removeEventListener('mousemove', this.dragging)
     window.removeEventListener('mouseup', this.dragend)

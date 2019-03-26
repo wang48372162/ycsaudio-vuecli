@@ -4,16 +4,24 @@ export const getAudio = (id) => {
   return audioDB.audio.find(v => v.id === id)
 }
 
-export const getAudioIndex = (id) => {
-  return audioDB.audio.findIndex(v => v.id === id)
+export const getList = (id) => {
+  let list = audioDB.list.find(v => v.id === id)
+  if (!list) return
+  if (typeof list.audios === 'string') {
+    list.audios = list.audios.split(',')
+  }
+  return list
 }
 
-export const getList = (id) => {
-  return audioDB.list.find(v => v.id === id)
+export const getListAudioIndex = (listId, id) => {
+  const list = getList(listId)
+  return list
+    ? list.audios.findIndex(audioId => audioId === id)
+    : null
 }
 
 export default {
   getAudio,
-  getAudioIndex,
-  getList
+  getList,
+  getListAudioIndex
 }

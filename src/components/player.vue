@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getAudioIndex, getList } from '../lib/util'
+import { getList, getListAudioIndex } from '../lib/util'
 import PlayerControls from './player-controls.vue'
 import PlayerTime from './player-time.vue'
 import PlayerVolume from './player-volume.vue'
@@ -103,7 +103,13 @@ export default {
   },
   computed: {
     audioIndex() {
-      return this.id ? getAudioIndex(this.id) : null
+      return this.id
+        ? getListAudioIndex(this.listId, this.id)
+        : null
+    },
+    listAudios() {
+      const list = getList(this.listId)
+      return list ? list.audios : null
     },
     repeatAll() {
       return this.repeatStatus === 1
@@ -117,17 +123,15 @@ export default {
 
       if (!this.listId || index < -1) return
 
-      const audios = getList(this.listId).audios
-
       // If repeat mode is all,
       // and prev audio is last audio.
       if (
         this.repeatAll &&
         index === -1
       ) {
-        id = audios[audios.length - 1]
+        id = this.listAudios[this.listAudios.length - 1]
       } else {
-        id = audios[index]
+        id = this.listAudios[index]
       }
 
       return id
@@ -138,18 +142,17 @@ export default {
 
       if (!this.listId) return
 
-      const audios = getList(this.listId).audios
-      if (index > audios.length) return
+      if (index > this.listAudios.length) return
 
       // If repeat mode is all,
       // and next audio is last audio.
       if (
         this.repeatAll &&
-        index === audios.length
+        index === this.listAudios.length
       ) {
-        id = audios[0]
+        id = this.listAudios[0]
       } else {
-        id = audios[index]
+        id = this.listAudios[index]
       }
 
       return id
@@ -159,12 +162,12 @@ export default {
     loadAudio() {
       this.$emit('on-audio-load-start')
 
-      // Audio Src
-      this.audio.src = this.src
-
       // Autoplay
       this.audio.autoplay = Boolean(this.autoplay)
       this.played = Boolean(this.autoplay)
+
+      // Audio Src
+      this.audio.src = this.src
 
       this.$emit('on-audio-loaded', this.audio)
     },

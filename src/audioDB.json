@@ -1,21 +1,296 @@
 {
   "audio": [
     {
-      "id": "123",
-      "url": "https://drive.google.com/uc?id=1l2I-t85m38HzHjD92qLWnpiD7gfPbL2u",
-      "title": "RESISTER"
+      "id": "1",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSQllJcWlzS1Zza28",
+      "title": "01 世界的約定(霍爾的移動城堡)"
     },
     {
-      "id": "124",
-      "url": "https://drive.google.com/uc?id=1LwTOJKF-qR3KpPAPPwDpMB0iuDPYc_AC",
-      "title": "I swear (Date A Live Ⅲ)"
+      "id": "2",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSY2dGRk9IVHNpcU0",
+      "title": "02 人生的旋轉木馬(霍爾的移動城堡)"
+    },
+    {
+      "id": "3",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSM0RRaGZ3V3F1dXc",
+      "title": "03 化成風(貓的報恩)"
+    },
+    {
+      "id": "4",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSLTF5UldMVlFUTTQ",
+      "title": "04 總是一次又一次(神隱少女)"
+    },
+    {
+      "id": "5",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSd0NqV2xFeTlfOTQ",
+      "title": "05 生命之名(神隱少女)"
+    },
+    {
+      "id": "6",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSUUZkYVd4VHNkTEE",
+      "title": "06 阿希達卡與珊(魔法公主)"
+    },
+    {
+      "id": "7",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSRVpvWlVBZzNmSm8",
+      "title": "07 魔法公主(魔法公主)"
+    },
+    {
+      "id": "8",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSckZybndaa3lsODA",
+      "title": "08 故鄉的街道(清心悅耳 或 心之谷)"
+    },
+    {
+      "id": "9",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSUDlMdDhhQS1penM",
+      "title": "09 魯修的口信(魔女宅急便)"
+    },
+    {
+      "id": "10",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSb0xtN1NRSXJrWEk",
+      "title": "10 好像能恢復元氣了(魔女宅急便)"
+    },
+    {
+      "id": "11",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSaFIxSndQUHpINFk",
+      "title": "11 季節的迴轉(魔女宅急便)"
+    },
+    {
+      "id": "12",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSNW8wOFczRFE3NjA",
+      "title": "12 鄰家的龍貓(龍貓)"
+    },
+    {
+      "id": "13",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSaldfSzdkT21JUWM",
+      "title": "13 散步(龍貓)"
+    },
+    {
+      "id": "14",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSanI4dEpzbmlhSmM",
+      "title": "14 載著你(天空之城)"
+    },
+    {
+      "id": "15",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSSEVhRldMdDVCY1U",
+      "title": "15 風之谷的娜烏西卡(風之谷)"
+    },
+    {
+      "id": "16",
+      "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSYzBQWVRjSnNlMTQ",
+      "title": "16 娜烏西卡安魂曲(風之谷)"
+    },
+    {
+      "id": "17",
+      "url": "https://drive.google.com/uc?id=1AtxfhDCzEfxHmrSMyYu_grZKPILXep57",
+      "title": "01 茜色の空"
+    },
+    {
+      "id": "18",
+      "url": "https://drive.google.com/uc?id=1Ca1DGR6fUWS-dVEQDwWBufAcMnWObERv",
+      "title": "02 Blue Moon"
+    },
+    {
+      "id": "19",
+      "url": "https://drive.google.com/uc?id=1IYyWye5LQB6Jqk11XjDYJuPFn1vnLRRc",
+      "title": "03 ありがとう～大きくカンシャ！～"
+    },
+    {
+      "id": "20",
+      "url": "https://drive.google.com/uc?id=1HWEgMU0PE1OBcE0JJ5v5bJ3n_F2Mn-1f",
+      "title": "04 名偵探柯南 春之歌"
+    },
+    {
+      "id": "21",
+      "url": "https://drive.google.com/uc?id=1kFmGnzoYSwIj263H5gGGJTqxMaHlWkSL",
+      "title": "05 START DASH SENSATION"
+    },
+    {
+      "id": "22",
+      "url": "https://drive.google.com/uc?id=1JAYIObfU76KyCVm38cmiYytA7ighoHUA",
+      "title": "06 Lucky Train!"
+    },
+    {
+      "id": "28",
+      "url": "https://drive.google.com/uc?id=1L7H3tq8jolATTta0VWuF8fv94K9_8qPv",
+      "title": "07 Start Line!"
+    },
+    {
+      "id": "29",
+      "url": "https://drive.google.com/uc?id=19_SoBg-rZiX5ZPZWw24MOPN9ASLWGfFZ",
+      "title": "08 ふたつのねがい"
+    },
+    {
+      "id": "30",
+      "url": "https://drive.google.com/uc?id=1IYy1c0K_E64pf0DTamq6oVC7rPC7flHD",
+      "title": "09 STARDOM!"
+    },
+    {
+      "id": "31",
+      "url": "https://drive.google.com/uc?id=19b37E61enH98HxWZq6H7OIY6UjjG8LJ7",
+      "title": "10 COLORFUL BOX"
+    },
+    {
+      "id": "32",
+      "url": "https://drive.google.com/uc?id=1aMSjzh0DG5c8G5ETOG6Cl3X3kf1bimOy",
+      "title": "11 PoppinParty 前へススメ！"
+    },
+    {
+      "id": "33",
+      "url": "https://drive.google.com/uc?id=1-ofvS4huu2lPAp5ZZ4fBu5OiYjvVF7b-",
+      "title": "12 Prisma☆Illya 2wei Herz! ワンダーステラ"
+    },
+    {
+      "id": "34",
+      "url": "https://drive.google.com/uc?id=1XDx9WwqxFQiIUsCId5cbBisROqZP0S1k",
+      "title": "13 sisters noise"
+    },
+    {
+      "id": "35",
+      "url": "https://drive.google.com/uc?id=1skB7eV982ujC_vzGP4-9oiGR4It4faFc",
+      "title": "14 未来の僕らは知ってるよ"
+    },
+    {
+      "id": "36",
+      "url": "https://drive.google.com/uc?id=1IbgLvj2qbUAYwUHreqGnRbRkC2XAeFZ0",
+      "title": "15 CLEAR"
+    },
+    {
+      "id": "37",
+      "url": "https://drive.google.com/uc?id=1eL6biH086IBoP8qeyyRrGd7t-5e9NvVi",
+      "title": "16 Daydream café"
+    },
+    {
+      "id": "38",
+      "url": "https://drive.google.com/uc?id=1tHr-YMIn9kO37Q4lTALWIeY3L5-0Uw9r",
+      "title": "17 High Free Spirits"
+    },
+    {
+      "id": "39",
+      "url": "https://drive.google.com/uc?id=1z4j1EQlvnIGLEl7X6FXh5Ee64cGkSUsf",
+      "title": "18 セカイがカフェになっちゃっ(點兔)"
+    },
+    {
+      "id": "40",
+      "url": "https://drive.google.com/uc?id=1c8nkkUdLKNWhR8fK_VK4e_sN0SdcyWMF",
+      "title": "19 Memories(comic girls)"
+    },
+    {
+      "id": "41",
+      "url": "https://drive.google.com/uc?id=1GpjSnQhOtzzONu1WbiRiwnrpTOOInauQ",
+      "title": "20 SAKURAスキップ"
+    },
+    {
+      "id": "42",
+      "url": "https://drive.google.com/uc?id=12AOxlmwn85Kbk__fW8xJwQra9QT4bl3C",
+      "title": "21 STEP by STEP UP"
+    },
+    {
+      "id": "43",
+      "url": "https://drive.google.com/uc?id=1erclM2Bwy0Pcbgubq3ZUPJrFFbXb0SA2",
+      "title": "22 地平線ストライド"
+    },
+    {
+      "id": "44",
+      "url": "https://drive.google.com/uc?id=1Af3pNVIpbkhp-xk2Gsfh8RkavH8WyKeN",
+      "title": "23 色違いの翼"
+    },
+    {
+      "id": "45",
+      "url": "https://drive.google.com/uc?id=1SwHTFt-idI412Oc-8gnAtDpCrCPxONtE",
+      "title": "24 SHaVaDaVa in AMAZING"
+    },
+    {
+      "id": "46",
+      "url": "https://drive.google.com/uc?id=1kz_2gKPWuD6ynIJpFXfXqkwml0sMXeYq",
+      "title": "25 RO-KYU-BU!  SHOOT!"
+    },
+    {
+      "id": "47",
+      "url": "https://drive.google.com/uc?id=1q3zqIywrwRhWk7a4eTocD-IIj_EKHhr7",
+      "title": "26 大切がきこえる"
+    },
+    {
+      "id": "48",
+      "url": "https://drive.google.com/uc?id=1z9CPHTuT7E_bt4pctprGl2n1aXgO3u3v",
+      "title": "27 HOWLING"
+    },
+    {
+      "id": "49",
+      "url": "https://drive.google.com/uc?id=1RhKTXZk1qPf3Az3jTaGoThL_lD3rH9fU",
+      "title": "28 グローリア（鳴護アリサ）"
+    },
+    {
+      "id": "50",
+      "url": "https://drive.google.com/uc?id=1bbdYR7OdOqVHH9HSvpPVAcOGYtGVVH8t",
+      "title": "29 進化系Colors"
+    },
+    {
+      "id": "51",
+      "url": "https://drive.google.com/uc?id=1UOwd6lTbu-1ULiIce1id1Lgw6sTnH1Nu",
+      "title": "30 17才 (色づく世界の明日から)"
+    },
+    {
+      "id": "52",
+      "url": "https://drive.google.com/uc?id=1o_lTXlJtb9wMcwP7TlzSwOuJAnN_FQnq",
+      "title": "31 ハナノイロ (花咲くいろは)"
+    },
+    {
+      "id": "53",
+      "url": "https://drive.google.com/uc?id=1hniNQN_PS13_YMQxUcbZ-mlDM_zmNbEX",
+      "title": "32 ワンダードライブ  (アリスと蔵六 OP)"
+    },
+    {
+      "id": "54",
+      "url": "https://drive.google.com/uc?id=1llu1VS9Z0rEaAgI39tSWhUPSkQSM-bGL",
+      "title": "33 DREAM SOLISTER"
+    },
+    {
+      "id": "55",
+      "url": "https://drive.google.com/uc?id=1pwVlOraUR2SlBjXTpmCpEMHBXezfqoXy",
+      "title": "901 猫の恩返し-風になる"
+    },
+    {
+      "id": "56",
+      "url": "https://drive.google.com/uc?id=1ak45im-cfHaZNL4jloQKZnwzhHl64oTE",
+      "title": "902 いのちの名前-生命之名(千と千尋の神隠し)"
+    },
+    {
+      "id": "57",
+      "url": "https://drive.google.com/uc?id=1SFwHiBNt1WUk3dKrfO3h3SbHdgW8Llpq",
+      "title": "903 テルーの唄-瑟魯之歌"
+    },
+    {
+      "id": "58",
+      "url": "https://drive.google.com/uc?id=1zgRAkyuPYhl3Q2pOjXHxSmZZHwHSE7oz",
+      "title": "34 RISE"
+    },
+    {
+      "id": "59",
+      "url": "https://drive.google.com/uc?id=1uRkLW4R0XLv8L-JiE-1ePvkJTYmMtiCF",
+      "title": "35 RESISTER"
+    },
+    {
+      "id": "60",
+      "url": "https://drive.google.com/uc?id=19Ji4ArN4sM1f_bLWAQUtWc0-cmNygM3e",
+      "title": "36 I swear (Date A Live Ⅲ)"
     }
   ],
   "list": [
     {
-      "id": "song-list-1",
-      "name": "播放列表1",
-      "audios": ["123", "124"]
+      "id": "Miyazaki_Hayao",
+      "name": "宮崎駿",
+      "audios": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"
+    },
+    {
+      "id": "song",
+      "name": "歌曲",
+      "audios": "17,18,19,20,21,22,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,58,59,60,55,56,57"
+    },
+    {
+      "id": "song-2",
+      "name": "歌曲2",
+      "audios": "37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,58,59,60"
     }
   ]
 }
