@@ -11,6 +11,8 @@
       :src="audioSrc"
       :title="audioTitle"
       :list-id="listId"
+      @on-audio-load-start="audioLoadStart"
+      @on-audio-load-end="audioLoadEnd"
     ></player>
 
     <playlist
@@ -100,6 +102,12 @@ export default {
       this.listId = ''
       this.listTitle = ''
       this.listAudios = ''
+    },
+    audioLoadStart() {
+      this.$nprogress.start()
+    },
+    audioLoadEnd() {
+      this.$nprogress.done()
     },
     setTitle() {
       let subtitle

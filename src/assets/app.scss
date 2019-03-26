@@ -38,3 +38,17 @@ a {
 .card-body {
   padding: 1.25rem;
 }
+
+#nprogress {
+  .bar {
+    height: 3px !important;
+    background: $primary !important;
+  }
+  .peg {
+    box-shadow: 0 0 10px $primary, 0 0 5px $primary !important;
+  }
+  .spinner-icon {
+    border-top-color: $primary !important;
+    border-left-color: $primary !important;
+  }
+}

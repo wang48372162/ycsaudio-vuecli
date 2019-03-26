@@ -157,6 +157,8 @@ export default {
   },
   methods: {
     loadAudio() {
+      this.$emit('on-audio-load-start')
+
       // Audio Src
       this.audio.src = this.src
 
@@ -243,7 +245,11 @@ export default {
     this.audio.onended = () => {
       this.repeat()
     }
+    this.audio.oncanplay = () => {
+      this.$emit('on-audio-load-end')
+    }
     this.audio.onerror = () => {
+      this.$emit('on-audio-load-end')
       this.error = true
       this.repeat()
     }
