@@ -1,0 +1,21 @@
+{
+  "audio": [
+    {
+      "id": "123",
+      "url": "https://drive.google.com/uc?id=1l2I-t85m38HzHjD92qLWnpiD7gfPbL2u",
+      "title": "RESISTER"
+    },
+    {
+      "id": "124",
+      "url": "https://drive.google.com/uc?id=1LwTOJKF-qR3KpPAPPwDpMB0iuDPYc_AC",
+      "title": "I swear (Date A Live Ⅲ)"
+    }
+  ],
+  "list": [
+    {
+      "id": "song-list-1",
+      "name": "播放列表1",
+      "audios": ["123", "124"]
+    }
+  ]
+}

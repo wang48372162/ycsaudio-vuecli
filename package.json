@@ -1,6 +1,7 @@
 {
   "name": "ycsaudio",
   "fullname": "ycsAudio",
+  "description": "我的線上音樂播放器",
   "version": "0.1.0",
   "private": true,
   "scripts": {

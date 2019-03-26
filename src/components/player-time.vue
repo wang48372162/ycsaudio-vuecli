@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     timeFormet(duration) {
+      duration = !isNaN(duration) ? duration : 0
       const s = this.timeNumFormet(parseInt(duration % 60))
       const m = this.timeNumFormet(parseInt((duration / 60) % 60))
       return `${m}:${s}`

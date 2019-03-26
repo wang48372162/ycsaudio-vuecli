@@ -11,11 +11,10 @@
 
       <player-controls
         class="player-controls"
-        ref="controls"
         :played="played"
         :error="error"
         :repeat-status="repeatStatus"
-        :use-list="useList"
+        :list-id="listId"
         :prev-id="prevId"
         :next-id="nextId"
         @on-play="clickPlay"
@@ -50,6 +49,7 @@
 </template>
 
 <script>
+import { getAudioIndex, getList } from '../lib/util'
 import PlayerControls from './player-controls.vue'
 import PlayerTime from './player-time.vue'
 import PlayerVolume from './player-volume.vue'
@@ -80,12 +80,10 @@ export default {
       type: Boolean,
       default: true
     },
-    useList: {
-      type: Boolean,
-      default: false
-    },
-    prevId: String,
-    nextId: String
+    listId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -102,6 +100,60 @@ export default {
   },
   watch: {
     src: 'loadAudio'
+  },
+  computed: {
+    audioIndex() {
+      return this.id ? getAudioIndex(this.id) : null
+    },
+    repeatAll() {
+      return this.repeatStatus === 1
+    },
+    repeatOne() {
+      return this.repeatStatus === 2
+    },
+    prevId() {
+      let id
+      let index = this.audioIndex - 1
+
+      if (!this.listId || index < -1) return
+
+      const audios = getList(this.listId).audios
+
+      // If repeat mode is all,
+      // and prev audio is last audio.
+      if (
+        this.repeatAll &&
+        index === -1
+      ) {
+        id = audios[audios.length - 1]
+      } else {
+        id = audios[index]
+      }
+
+      return id
+    },
+    nextId() {
+      let id
+      let index = this.audioIndex + 1
+
+      if (!this.listId) return
+
+      const audios = getList(this.listId).audios
+      if (index > audios.length) return
+
+      // If repeat mode is all,
+      // and next audio is last audio.
+      if (
+        this.repeatAll &&
+        index === audios.length
+      ) {
+        id = audios[0]
+      } else {
+        id = audios[index]
+      }
+
+      return id
+    }
   },
   methods: {
     loadAudio() {
@@ -144,9 +196,16 @@ export default {
     repeat() {
       if (this.error) return null
 
-      if (this.repeatStatus === 1) {
-        // List repeat all
-      } else if (this.repeatStatus === 2) {
+      if (this.listId && this.nextId) {
+        this.$router.push({
+          query: {
+            id: this.nextId,
+            list: this.listId
+          }
+        })
+      }
+
+      if (this.repeatOne) {
         this.audio.currentTime = 0
         this.audio.play()
       }
@@ -186,6 +245,7 @@ export default {
     }
     this.audio.onerror = () => {
       this.error = true
+      this.repeat()
     }
     this.audio.onloadedmetadata = () => {
       this.duration = this.audio.duration
@@ -223,16 +283,5 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-}
-
-@media only screen and (min-width: 480px) {
-  .button:hover {
-    .svg-fill {
-      opacity: 1;
-    }
-    .svg-fill-s {
-      opacity: 1;
-    }
-  }
 }
 </style>

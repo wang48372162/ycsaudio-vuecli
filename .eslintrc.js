@@ -16,8 +16,7 @@ module.exports = {
       isProduction ? 'error' : 'off',
       {
         anonymous: 'always',
-        named: 'never',
-        syncArrow: 'always'
+        named: 'never'
       }
     ]
   },

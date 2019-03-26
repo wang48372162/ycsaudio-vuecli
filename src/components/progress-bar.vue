@@ -158,7 +158,7 @@ export default {
   .bar-play {
     position: absolute;
     height: 100%;
-    background: $black;
+    background: $primary;
 
     .bar-circle {
       position: absolute;
@@ -167,7 +167,7 @@ export default {
       width: 16px;
       height: 16px;
       border-radius: 100%;
-      background: $black;
+      background: $primary;
     }
   }
 }

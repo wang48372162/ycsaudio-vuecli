@@ -8,7 +8,7 @@
       class="volume-icon"
       @click="clickIcon"
     >
-      <path :d="volumeIconPath" />
+      <path class="svg-fill" :d="volumeIconPath" />
       <path d="M0 0h24v24H0z" fill="none"/>
     </svg>
     <progress-bar
@@ -93,6 +93,20 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  .svg-fill {
+    fill: $primary;
+    opacity: 0.9;
+    transition: opacity $transition-duration;
+  }
+
+  @media only screen and (min-width: 480px) {
+    &:hover {
+      .svg-fill {
+        opacity: 1;
+      }
+    }
+  }
 }
 .player-volume-progress {
   width: 50px;

@@ -1,10 +1,20 @@
 <template>
   <div>
-    <a href="javascript: void(0)" :class="btnPrevCls" :title="btnText.prev" v-if="useList">
+    <router-link
+      v-if="listId && prevId"
+      :to="audioTo(prevId)"
+      :class="btnPrevCls"
+      :title="btnPrevTitle"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
         <path class="svg-fill" :d="prevBtnPath" />
       </svg>
-    </a>
+    </router-link>
+    <div v-if="!prevId" :class="btnPrevCls" :title="btnText.prev">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+        <path class="svg-fill" :d="prevBtnPath" />
+      </svg>
+    </div>
 
     <button :class="btnCls(playMode)" @click="play" :title="btnText[playMode]">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
@@ -18,21 +28,32 @@
       </svg>
     </button>
 
-    <button :class="btnCls('repeat')" @click="repeat" :title="btnText.repeat">
+    <button :class="btnCls('repeat')" @click="repeat" :title="btnText.repeatMode[repeatStatus]">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
         <path :class="repeatBtnPathCls" :d="repeatBtnPath" />
       </svg>
     </button>
 
-    <a href="javascript: void(0)" :class="btnNextCls" :title="btnText.next" v-if="useList">
+    <router-link
+      v-if="listId && nextId"
+      :to="audioTo(nextId)"
+      :class="btnNextCls"
+      :title="btnNextTitle"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
         <path class="svg-fill" :d="nextBtnPath" />
       </svg>
-    </a>
+    </router-link>
+    <div v-if="!nextId" :class="btnNextCls" :title="btnText.next">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+        <path class="svg-fill" :d="nextBtnPath" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script>
+import { getAudio } from '../lib/util'
 import Cookies from 'js-cookie'
 
 export default {
@@ -50,9 +71,9 @@ export default {
       type: Number,
       default: 0
     },
-    useList: {
-      type: Boolean,
-      default: false
+    listId: {
+      type: String,
+      default: ''
     },
     prevId: String,
     nextId: String
@@ -64,7 +85,7 @@ export default {
         pause: '暫停',
         stop: '停止',
         repeat: '循環',
-        repeatMode: ['正常', '全部循環', '單曲循環'],
+        repeatMode: ['無循環', '全部循環', '單曲循環'],
         prev: '上一首',
         next: '下一首'
       }
@@ -121,6 +142,12 @@ export default {
     },
     btnNextCls() {
       return this.btnCls('next', !this.nextId)
+    },
+    btnPrevTitle() {
+      return getAudio(this.prevId).title
+    },
+    btnNextTitle() {
+      return getAudio(this.nextId).title
     }
   },
   methods: {
@@ -134,7 +161,7 @@ export default {
       if (this.error) return null
 
       if (this.repeatStatus === 0) {
-        if (!this.useList) {
+        if (!this.listId) {
           this.setRepeatStatus(2)
         } else {
           this.setRepeatStatus(1)
@@ -148,6 +175,14 @@ export default {
       }
 
       this.$emit('on-repeat', this.repeatStatus)
+    },
+    audioTo(id) {
+      return {
+        query: {
+          id,
+          list: this.listId
+        }
+      }
     },
     setRepeatStatus(status) {
       this.$emit('on-update-repeat', status)
@@ -167,7 +202,7 @@ export default {
     if (REPEAT_STATUS) {
       this.setRepeatStatus(REPEAT_STATUS)
     }
-    if (!this.useList && this.repeatStatus === 1) {
+    if (!this.listId && this.repeatStatus === 1) {
       this.setRepeatStatus(2)
     }
   }
@@ -196,7 +231,7 @@ $button-size: 50px;
   }
 
   .svg-fill {
-    fill: $black;
+    fill: $primary;
     opacity: 0.9;
     transition:
       d $transition-duration,
@@ -223,6 +258,17 @@ $button-size: 50px;
     path {
       fill: $disabled-color !important;
       opacity: 0.8 !important;
+    }
+  }
+
+  @media only screen and (min-width: 480px) {
+    &:hover {
+      .svg-fill {
+        opacity: 1;
+      }
+      .svg-fill-s {
+        opacity: 1;
+      }
     }
   }
 }
