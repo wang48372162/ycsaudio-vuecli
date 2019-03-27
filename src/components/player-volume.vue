@@ -1,5 +1,5 @@
 <template>
-  <div class="player-volume">
+  <div class="player-volume" :title="tooltipText">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -44,6 +44,14 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      text: {
+        volume: '音量：',
+        muted: '靜音'
+      }
+    }
+  },
   computed: {
     volumeIconPath() {
       let path
@@ -57,6 +65,16 @@ export default {
         path = 'M7 9v6h4l5 5V4l-5 5H7z'
       }
       return path
+    },
+    tooltipText() {
+      let text
+      if (this.muted) {
+        text = this.text.muted
+      } else {
+        const volumePer = Math.floor(this.value / this.total * 100)
+        text = `${this.text.volume}${volumePer}%`
+      }
+      return text
     }
   },
   methods: {
