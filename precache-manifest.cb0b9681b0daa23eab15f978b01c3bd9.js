@@ -8,11 +8,11 @@ self.__precacheManifest = [
     "url": "/ycsaudio/js/chunk-vendors.76ce6d81.js"
   },
   {
-    "revision": "06ff93c65f5de5d01320",
-    "url": "/ycsaudio/js/app.e082e3d4.js"
+    "revision": "d2f744845675cd1f3dd1",
+    "url": "/ycsaudio/js/app.ceac6530.js"
   },
   {
-    "revision": "53fff723db92ee7cc2eac76565bc17d9",
+    "revision": "f553d05265acaf018f575e9feb95b92f",
     "url": "/ycsaudio/index.html"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/ycsaudio/css/chunk-vendors.4b795163.css"
   },
   {
-    "revision": "06ff93c65f5de5d01320",
+    "revision": "d2f744845675cd1f3dd1",
     "url": "/ycsaudio/css/app.ed255ab5.css"
   }
 ];
