@@ -72,15 +72,15 @@ export default {
       Cookies.set('YCSAUDIO_MUTED', value ? 1 : 0)
     }
   },
-  created() {
+  mounted() {
     // Volume init
-    const VOLUME = Number(Cookies.get('YCSAUDIO_VOLUME'))
-    if (VOLUME) {
-      this.changeVolume(VOLUME)
+    const VOLUME = Cookies.get('YCSAUDIO_VOLUME')
+    const MUTED = Cookies.get('YCSAUDIO_MUTED')
+    if (typeof VOLUME !== 'undefined') {
+      this.changeVolume(Number(VOLUME))
     }
-    const MUTED = Number(Cookies.get('YCSAUDIO_MUTED'))
-    if (MUTED) {
-      this.changeMuted(MUTED)
+    if (typeof MUTED !== 'undefined') {
+      this.changeMuted(Boolean(Number(MUTED)))
     }
   }
 }

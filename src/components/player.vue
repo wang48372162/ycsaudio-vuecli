@@ -50,6 +50,7 @@
 
 <script>
 import { getList, getListAudioIndex } from '../lib/util'
+import Cookies from 'js-cookie'
 import PlayerControls from './player-controls.vue'
 import PlayerTime from './player-time.vue'
 import PlayerVolume from './player-volume.vue'
@@ -162,12 +163,9 @@ export default {
     loadAudio() {
       this.$emit('on-audio-load-start')
 
-      // Autoplay
-      this.audio.autoplay = Boolean(this.autoplay)
-      this.played = Boolean(this.autoplay)
-
       // Audio Src
       this.audio.src = this.src
+      this.error = false
 
       this.$emit('on-audio-loaded', this.audio)
     },
@@ -198,10 +196,14 @@ export default {
 
       this.repeatStatus = status
     },
-    repeat() {
-      if (this.error) return null
-
+    async repeat() {
       if (this.listId && this.nextId) {
+        if (this.error) {
+          await new Promise(resolve => {
+            setTimeout(resolve, 3e3)
+          })
+        }
+
         this.$router.push({
           query: {
             id: this.nextId,
@@ -210,7 +212,7 @@ export default {
         })
       }
 
-      if (this.repeatOne) {
+      if (this.repeatOne && !this.error) {
         this.audio.currentTime = 0
         this.audio.play()
       }
@@ -235,10 +237,33 @@ export default {
     }
   },
   mounted() {
+    // Audio init
     this.audio = this.$refs.audio
+    this.audio.preload = 'auto'
+
+    // Autoplay
+    this.audio.autoplay = Boolean(this.autoplay)
+    this.played = Boolean(this.autoplay)
 
     this.loadAudio()
 
+    // Audio events
+    this.audio.onloadedmetadata = () => {
+      this.duration = this.audio.duration
+    }
+    this.audio.oncanplay = () => {
+      this.$emit('on-audio-load-end')
+
+      // Volume init
+      const VOLUME = Cookies.get('YCSAUDIO_VOLUME')
+      const MUTED = Cookies.get('YCSAUDIO_MUTED')
+      if (typeof VOLUME !== 'undefined') {
+        this.changeVolume(Number(VOLUME))
+      }
+      if (typeof MUTED !== 'undefined') {
+        this.changeMuted(Boolean(Number(MUTED)))
+      }
+    }
     this.audio.onplay = () => {
       this.played = true
     }
@@ -248,16 +273,10 @@ export default {
     this.audio.onended = () => {
       this.repeat()
     }
-    this.audio.oncanplay = () => {
-      this.$emit('on-audio-load-end')
-    }
     this.audio.onerror = () => {
       this.$emit('on-audio-load-end')
       this.error = true
       this.repeat()
-    }
-    this.audio.onloadedmetadata = () => {
-      this.duration = this.audio.duration
     }
     this.audio.ontimeupdate = () => {
       this.duration = this.audio.duration
