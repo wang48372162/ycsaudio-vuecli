@@ -85,13 +85,13 @@ export default {
   data() {
     return {
       btnText: {
-        play: '播放',
-        pause: '暫停',
-        stop: '停止',
-        repeat: '循環',
+        play: '播放 (Space)',
+        pause: '暫停 (Space)',
+        stop: '停止 (S)',
+        repeat: '循環 (R)',
         repeatMode: ['無循環', '全部循環', '單曲循環'],
-        prev: '上一首',
-        next: '下一首'
+        prev: '上一首 (Left)',
+        next: '下一首 (Right)'
       }
     }
   },

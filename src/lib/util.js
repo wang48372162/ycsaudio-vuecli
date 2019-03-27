@@ -20,8 +20,13 @@ export const getListAudioIndex = (listId, id) => {
     : null
 }
 
+export const floatFormet = (number, pow = 4) => {
+  return Math.floor(number * Math.pow(10, pow)) / Math.pow(10, pow)
+}
+
 export default {
   getAudio,
   getList,
-  getListAudioIndex
+  getListAudioIndex,
+  floatFormet
 }

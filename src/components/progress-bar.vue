@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { floatFormet } from '../lib/util'
+
 export default {
   name: 'ProbressBar',
   props: {
@@ -52,6 +54,15 @@ export default {
     }
   },
   methods: {
+    updateProgress(value) {
+      if (value < 0) {
+        value = 0
+      } else if (value > this.total) {
+        value = this.total
+      }
+
+      this.$emit('on-change-progress', value)
+    },
     click(e) {
       this.drag = true
       this.dragOffset = 0
@@ -60,13 +71,13 @@ export default {
       this.dragWidth = this.getWidth(e)
 
       const value = this.percentageToNumber(this.dragWidth, this.total)
-      this.$emit('on-change-progress', value)
+      this.updateProgress(value)
 
       this.drag = false
     },
     dragstart(e) {
       e = this.getEvent(e)
-      if (e.target.matches(`.${this.bar.classList[1]} .bar-circle`)) {
+      if (e.target.matches(`#${this.bar.getAttribute('id')} .bar-circle`)) {
         this.drag = true
         this.dragBarWidth = this.bar.clientWidth
         this.dragBarX = this.bar.offsetLeft
@@ -81,14 +92,14 @@ export default {
 
         if (this.isDraggingUpdate) {
           const value = this.percentageToNumber(this.dragWidth, this.total)
-          this.$emit('on-change-progress', value)
+          this.updateProgress(value)
         }
       }
     },
     dragend() {
       if (this.drag && !this.isDraggingUpdate) {
         const value = this.percentageToNumber(this.dragWidth, this.total)
-        this.$emit('on-change-progress', value)
+        this.updateProgress(value)
       }
 
       this.drag = false
@@ -98,14 +109,11 @@ export default {
       this.dragBarX = 0
     },
     numberToPercentage(value, total) {
-      return this.floatFormet(100 / total * value)
+      return floatFormet(100 / total * value)
     },
     percentageToNumber(width, total) {
       width = Number(String(width).replace('%', ''))
-      return this.floatFormet(width / 100 * total)
-    },
-    floatFormet(number) {
-      return Math.floor(number * 10000) / 10000
+      return floatFormet(width / 100 * total)
     },
     getEvent(e) {
       if (e.type.indexOf('touch') !== -1) {

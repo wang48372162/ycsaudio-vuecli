@@ -1,18 +1,18 @@
 <template>
-  <div class="player-volume" :title="tooltipText">
+  <div id="player-volume" :title="tooltipText">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
       viewBox="0 0 24 24"
       class="volume-icon"
-      @click="clickIcon"
+      @click="clickMuted"
     >
       <path class="svg-fill" :d="volumeIconPath" />
       <path d="M0 0h24v24H0z" fill="none"/>
     </svg>
     <progress-bar
-      class="player-volume-progress"
+      id="player-volume-progress"
       :value="value"
       :total="total"
       :is-dragging-update="true"
@@ -23,6 +23,7 @@
 
 <script>
 import Cookies from 'js-cookie'
+import { floatFormet } from '../lib/util'
 import ProgressBar from './progress-bar.vue'
 
 export default {
@@ -48,7 +49,7 @@ export default {
     return {
       text: {
         volume: '音量：',
-        muted: '靜音'
+        muted: '靜音 (M)'
       }
     }
   },
@@ -78,12 +79,18 @@ export default {
     }
   },
   methods: {
-    clickIcon() {
+    clickMuted() {
       this.changeMuted(!this.muted)
     },
     changeVolume(value) {
-      this.$emit('on-change-progress', value)
-      Cookies.set('YCSAUDIO_VOLUME', value)
+      if (value < 0) {
+        value = 0
+      } else if (value > this.total) {
+        value = this.total
+      }
+      const result = floatFormet(value, 2)
+      this.$emit('on-change-progress', result)
+      Cookies.set('YCSAUDIO_VOLUME', result)
     },
     changeMuted(value) {
       this.$emit('on-muted', value)
@@ -107,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/_variables.scss';
 
-.player-volume {
+#player-volume {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -126,7 +133,7 @@ export default {
     }
   }
 }
-.player-volume-progress {
+#player-volume-progress {
   width: 50px;
   max-width: 50px;
 }

@@ -10,6 +10,7 @@
       </h1>
 
       <player-controls
+        ref="controls"
         class="player-controls"
         :played="played"
         :error="error"
@@ -19,7 +20,7 @@
         :next-id="nextId"
         @on-play="clickPlay"
         @on-stop="clickStop"
-        @on-update-repeat="updateRepeat"
+        @on-update-repeat="clickRepeat"
       ></player-controls>
 
       <div class="row">
@@ -30,6 +31,7 @@
         ></player-time>
 
         <player-volume
+          ref="volume"
           :value="volume"
           :total="volumeTotal"
           :muted="muted"
@@ -39,7 +41,8 @@
       </div>
 
       <progress-bar
-        class="player-progressbar"
+        ref="progressbar"
+        id="player-progressbar"
         :value="currentTime"
         :total="duration"
         @on-change-progress="changeProgress"
@@ -191,7 +194,7 @@ export default {
       }
       this.played = false
     },
-    updateRepeat(status) {
+    clickRepeat(status) {
       if (this.error) return null
 
       this.repeatStatus = status
@@ -285,6 +288,69 @@ export default {
     this.audio.onvolumechange = () => {
       this.volume = this.audio.volume
     }
+
+    const vm = this
+
+    // Keyboard
+    window.addEventListener('keydown', e => {
+      const keys = [
+        { // Play/Pause (Space)
+          code: 32,
+          run: () => {
+            vm.clickPlay()
+          }
+        },
+        { // Stop (S)
+          code: 83,
+          run: () => {
+            vm.clickStop()
+          }
+        },
+        { // Repeat (R)
+          code: 82,
+          run: () => {
+            vm.$refs.controls.repeat()
+          }
+        },
+        { // Backward Audio (ArrowLeft)
+          code: 37,
+          run: () => {
+            vm.$refs.progressbar.updateProgress(vm.currentTime - 5)
+          }
+        },
+        { // Forward Audio (ArrowRight)
+          code: 39,
+          run: () => {
+            vm.$refs.progressbar.updateProgress(vm.currentTime + 5)
+          }
+        },
+        { // Volume Up (ArrowUp)
+          code: 38,
+          run: () => {
+            vm.$refs.volume.changeVolume(vm.volume + 0.05)
+          }
+        },
+        { // Volume Down (ArrowDown)
+          code: 40,
+          run: () => {
+            vm.$refs.volume.changeVolume(vm.volume - 0.05)
+          }
+        },
+        { // Muted (M)
+          code: 77,
+          run: () => {
+            vm.$refs.volume.clickMuted()
+          }
+        }
+      ]
+
+      keys.forEach(keyData => {
+        if (e.keyCode === keyData.code && keyData.run) {
+          e.preventDefault()
+          keyData.run()
+        }
+      })
+    })
   }
 }
 </script>
