@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "/ycsaudio/js/app.ceac6530.js"
   },
   {
-    "revision": "f553d05265acaf018f575e9feb95b92f",
+    "revision": "bbe64263f41afa2d55e1854894d3ea6d",
     "url": "/ycsaudio/index.html"
   },
   {
