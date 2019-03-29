@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
 import { floatFormet } from '../lib/util'
 import ProgressBar from './progress-bar.vue'
 
@@ -90,17 +89,17 @@ export default {
       }
       const result = floatFormet(value, 2)
       this.$emit('on-change-progress', result)
-      Cookies.set('YCSAUDIO_VOLUME', result)
+      this.$cookies.set('YCSAUDIO_VOLUME', result)
     },
     changeMuted(value) {
       this.$emit('on-muted', value)
-      Cookies.set('YCSAUDIO_MUTED', value ? 1 : 0)
+      this.$cookies.set('YCSAUDIO_MUTED', value ? 1 : 0)
     }
   },
   mounted() {
     // Volume init
-    const VOLUME = Cookies.get('YCSAUDIO_VOLUME')
-    const MUTED = Cookies.get('YCSAUDIO_MUTED')
+    const VOLUME = this.$cookies.get('YCSAUDIO_VOLUME')
+    const MUTED = this.$cookies.get('YCSAUDIO_MUTED')
     if (typeof VOLUME !== 'undefined') {
       this.changeVolume(Number(VOLUME))
     }

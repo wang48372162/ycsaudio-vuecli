@@ -53,7 +53,6 @@
 
 <script>
 import { getList, getListAudioIndex } from '../lib/util'
-import Cookies from 'js-cookie'
 import PlayerControls from './player-controls.vue'
 import PlayerTime from './player-time.vue'
 import PlayerVolume from './player-volume.vue'
@@ -258,8 +257,8 @@ export default {
       this.$emit('on-audio-load-end')
 
       // Volume init
-      const VOLUME = Cookies.get('YCSAUDIO_VOLUME')
-      const MUTED = Cookies.get('YCSAUDIO_MUTED')
+      const VOLUME = this.$cookies.get('YCSAUDIO_VOLUME')
+      const MUTED = this.$cookies.get('YCSAUDIO_MUTED')
       if (typeof VOLUME !== 'undefined') {
         this.changeVolume(Number(VOLUME))
       }

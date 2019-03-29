@@ -58,7 +58,6 @@
 
 <script>
 import { getAudio } from '../lib/util'
-import Cookies from 'js-cookie'
 
 export default {
   name: 'PlayerControls',
@@ -190,7 +189,7 @@ export default {
     },
     setRepeatStatus(status) {
       this.$emit('on-update-repeat', status)
-      Cookies.set('YCSAUDIO_REPEAT_STATUS', status)
+      this.$cookies.set('YCSAUDIO_REPEAT_STATUS', status)
     },
     btnCls(mode, forceDisabled = false) {
       return [
@@ -202,7 +201,7 @@ export default {
   },
   created() {
     // Repeat status init
-    const REPEAT_STATUS = Number(Cookies.get('YCSAUDIO_REPEAT_STATUS'))
+    const REPEAT_STATUS = Number(this.$cookies.get('YCSAUDIO_REPEAT_STATUS'))
     if (REPEAT_STATUS) {
       this.setRepeatStatus(REPEAT_STATUS)
     }
