@@ -13,11 +13,11 @@
         ref="controls"
         class="player-controls"
         :played="played"
-        :error="error"
         :repeat-status="repeatStatus"
         :list-id="listId"
         :prev-id="prevId"
         :next-id="nextId"
+        :error="error"
         @on-play="clickPlay"
         @on-stop="clickStop"
         @on-update-repeat="clickRepeat"
@@ -45,6 +45,7 @@
         id="player-progressbar"
         :value="currentTime"
         :total="duration"
+        :error="error"
         @on-change-progress="changeProgress"
       ></progress-bar>
     </div>
@@ -256,15 +257,7 @@ export default {
     this.audio.oncanplay = () => {
       this.$emit('on-audio-load-end')
 
-      // Volume init
-      const VOLUME = this.$cookies.get('YCSAUDIO_VOLUME')
-      const MUTED = this.$cookies.get('YCSAUDIO_MUTED')
-      if (typeof VOLUME !== 'undefined') {
-        this.changeVolume(Number(VOLUME))
-      }
-      if (typeof MUTED !== 'undefined') {
-        this.changeMuted(Boolean(Number(MUTED)))
-      }
+      this.$refs.volume.initVolume()
     }
     this.audio.onplay = () => {
       this.played = true

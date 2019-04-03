@@ -66,10 +66,6 @@ export default {
       type: Boolean,
       default: false
     },
-    error: {
-      type: Boolean,
-      default: false
-    },
     repeatStatus: {
       type: Number,
       default: 0
@@ -79,7 +75,11 @@ export default {
       default: ''
     },
     prevId: String,
-    nextId: String
+    nextId: String,
+    error: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

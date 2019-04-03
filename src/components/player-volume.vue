@@ -81,6 +81,23 @@ export default {
     clickMuted() {
       this.changeMuted(!this.muted)
     },
+    initVolume() {
+      // Volume init
+      const VOLUME = this.$cookies.get('YCSAUDIO_VOLUME')
+      const MUTED = this.$cookies.get('YCSAUDIO_MUTED')
+
+      if (VOLUME !== null) {
+        this.changeVolume(Number(VOLUME))
+      } else {
+        this.changeVolume(this.value)
+      }
+
+      if (MUTED !== null) {
+        this.changeMuted(Boolean(Number(MUTED)))
+      } else {
+        this.changeMuted(this.muted)
+      }
+    },
     changeVolume(value) {
       if (value < 0) {
         value = 0
@@ -96,16 +113,8 @@ export default {
       this.$cookies.set('YCSAUDIO_MUTED', value ? 1 : 0)
     }
   },
-  mounted() {
-    // Volume init
-    const VOLUME = this.$cookies.get('YCSAUDIO_VOLUME')
-    const MUTED = this.$cookies.get('YCSAUDIO_MUTED')
-    if (typeof VOLUME !== 'undefined') {
-      this.changeVolume(Number(VOLUME))
-    }
-    if (typeof MUTED !== 'undefined') {
-      this.changeMuted(Boolean(Number(MUTED)))
-    }
+  created() {
+    this.initVolume()
   }
 }
 </script>

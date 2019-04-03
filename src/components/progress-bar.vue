@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-wrapper" ref="progressbar" @click="click">
+  <div class="progress-wrapper" ref="progressbar">
     <div class="progress">
       <div class="bar-play" :style="progressStyle">
         <div class="bar-circle"></div>
@@ -25,6 +25,10 @@ export default {
     isDraggingUpdate: {
       type: Boolean,
       default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -48,12 +52,17 @@ export default {
       if (!this.drag) {
         width = this.numberToPercentage(this.value, this.total)
       } else {
-        width = this.dragWidth
+        if (!this.error) {
+          width = this.dragWidth
+        }
       }
       return `${width || 0}%`
     }
   },
   methods: {
+    matches(e, selector) {
+      return e.target.matches(`#${this.bar.getAttribute('id')}${selector}`)
+    },
     updateProgress(value) {
       if (value < 0) {
         value = 0
@@ -63,32 +72,32 @@ export default {
 
       this.$emit('on-change-progress', value)
     },
-    click(e) {
-      this.drag = true
-      this.dragOffset = 0
-      this.dragBarWidth = this.bar.clientWidth
-      this.dragBarX = this.bar.offsetLeft
-      this.dragWidth = this.getWidth(e)
-
-      const value = this.percentageToNumber(this.dragWidth, this.total)
-      this.updateProgress(value)
-
-      this.drag = false
-    },
     dragstart(e) {
       e = this.getEvent(e)
-      if (e.target.matches(`#${this.bar.getAttribute('id')} .bar-circle`)) {
+
+      if (this.matches(e, ' .bar-circle')) {
+        // Click on the circle
         this.drag = true
+        this.dragOffset = e.offsetX ? e.offsetX - e.target.clientWidth / 2 : 0
         this.dragBarWidth = this.bar.clientWidth
         this.dragBarX = this.bar.offsetLeft
-        this.dragOffset = e.offsetX ? e.offsetX - e.target.clientWidth / 2 : 0
-        this.dragWidth = this.getWidth(e)
+        this.dragWidth = this.getPerWidth(e)
+      } else if (
+        this.matches(e, '.progress-wrapper') ||
+        this.matches(e, ' .progress')
+      ) {
+        // Click on the progress bar
+        this.drag = true
+        this.dragOffset = 0
+        this.dragBarWidth = this.bar.clientWidth
+        this.dragBarX = this.bar.offsetLeft
+        this.dragWidth = this.getPerWidth(e)
       }
     },
     dragging(e) {
       e = this.getEvent(e)
       if (this.drag) {
-        this.dragWidth = this.getWidth(e)
+        this.dragWidth = this.getPerWidth(e)
 
         if (this.isDraggingUpdate) {
           const value = this.percentageToNumber(this.dragWidth, this.total)
@@ -121,7 +130,7 @@ export default {
       }
       return e
     },
-    getWidth(e) {
+    getPerWidth(e) {
       let widthPx = e.clientX - this.dragOffset - this.dragBarX
       if (widthPx < 0) {
         widthPx = 0
