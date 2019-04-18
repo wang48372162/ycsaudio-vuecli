@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="title">
-      <img class="title-logo" src="@/assets/logo.png" alt="ycsAudio Logo">
-      {{ pkg.fullname }}
+    <div class="title-wrapper">
+      <router-link to="/" class="title">
+        <img class="title-logo" src="@/assets/logo.png" alt="ycsAudio Logo">
+        {{ pkg.fullname }}
+      </router-link>
     </div>
 
     <player
@@ -126,6 +128,7 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+  padding: 2rem 0;
   text-align: center;
 }
 .home-logo {
