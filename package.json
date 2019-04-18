@@ -3,13 +3,12 @@
   "fullname": "ycsAudio",
   "description": "我的線上音樂播放器",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service test:unit",
-    "gh-pages": "npm run build && gh-pages -d dist"
+    "deploy-ghpages": "sh scripts/deploy.sh"
   },
   "dependencies": {
     "register-service-worker": "^1.6.2",
@@ -29,9 +28,11 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
+    "codecov": "^3.3.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.2",
     "gh-pages": "^2.0.1",
+    "nock": "^10.0.6",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"

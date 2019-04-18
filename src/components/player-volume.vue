@@ -5,7 +5,7 @@
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      class="volume-icon"
+      class="volume-muted volume-icon"
       @click="clickMuted"
     >
       <path class="svg-fill" :d="volumeIconPath" />

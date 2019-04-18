@@ -1,4 +1,4 @@
-import audioDB from '../audioDB.json'
+import audioDB from '@/audioDB.json'
 
 export const getAudio = (id) => {
   return audioDB.audio.find(v => v.id === id)

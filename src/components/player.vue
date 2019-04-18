@@ -269,8 +269,9 @@ export default {
       this.repeat()
     }
     this.audio.onerror = () => {
-      this.$emit('on-audio-load-end')
       this.error = true
+      this.$emit('on-error')
+      this.$emit('on-audio-load-end')
       this.repeat()
     }
     this.audio.ontimeupdate = () => {

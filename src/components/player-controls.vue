@@ -115,8 +115,6 @@ export default {
         result = repeatStatusPath
       } else if (this.repeatStatus === 2) {
         result = repeatStatusOnePath
-      } else {
-        result = repeatStatusOnePath
       }
 
       return result
@@ -165,19 +163,15 @@ export default {
 
       if (this.repeatStatus === 0) {
         if (!this.listId) {
-          this.setRepeatStatus(2)
+          this.updateRepeatStatus(2)
         } else {
-          this.setRepeatStatus(1)
+          this.updateRepeatStatus(1)
         }
       } else if (this.repeatStatus === 1) {
-        this.setRepeatStatus(2)
+        this.updateRepeatStatus(2)
       } else if (this.repeatStatus === 2) {
-        this.setRepeatStatus(0)
-      } else {
-        this.setRepeatStatus(0)
+        this.updateRepeatStatus(0)
       }
-
-      this.$emit('on-repeat', this.repeatStatus)
     },
     audioTo(id) {
       return {
@@ -187,7 +181,7 @@ export default {
         }
       }
     },
-    setRepeatStatus(status) {
+    updateRepeatStatus(status) {
       this.$emit('on-update-repeat', status)
       this.$cookies.set('YCSAUDIO_REPEAT_STATUS', status)
     },
@@ -203,10 +197,11 @@ export default {
     // Repeat status init
     const REPEAT_STATUS = Number(this.$cookies.get('YCSAUDIO_REPEAT_STATUS'))
     if (REPEAT_STATUS) {
-      this.setRepeatStatus(REPEAT_STATUS)
-    }
-    if (!this.listId && this.repeatStatus === 1) {
-      this.setRepeatStatus(2)
+      if (!this.listId && REPEAT_STATUS === 1) {
+        this.updateRepeatStatus(2)
+      } else {
+        this.updateRepeatStatus(REPEAT_STATUS)
+      }
     }
   }
 }

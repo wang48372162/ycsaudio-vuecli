@@ -14,6 +14,7 @@ module.exports = {
     '/node_modules/'
   ],
   moduleNameMapper: {
+    '^.+/audioDB.json$': '<rootDir>/mocks/audioDB.json',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   snapshotSerializers: [
@@ -22,5 +23,14 @@ module.exports = {
   testMatch: [
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
-  testURL: 'http://localhost/'
+  testURL: 'http://localhost/',
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.{js,vue}',
+    '!src/main.js', // No need to cover bootstrap file
+    '!src/App.vue',
+    '!src/registerServiceWorker.js',
+    '!src/router.js',
+    '!src/pages/**/*'
+  ]
 }
