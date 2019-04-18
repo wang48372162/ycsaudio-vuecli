@@ -200,7 +200,7 @@ export default {
       this.repeatStatus = status
     },
     async repeat() {
-      if (this.listId && this.nextId) {
+      if (this.listId && this.nextId && !this.repeatOne) {
         if (this.error) {
           await new Promise(resolve => {
             setTimeout(resolve, 3e3)
