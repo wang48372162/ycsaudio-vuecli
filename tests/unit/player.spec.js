@@ -6,21 +6,18 @@ import nock from 'nock'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
 
-let localVue
+let localVue = createLocalVue()
+localVue.use(VueRouter)
+localVue.use(VueCookies)
+
 let music = fs.readFileSync(path.resolve(__dirname, '../../mocks/music.mp3'))
 
 describe('Player', () => {
-  beforeEach(() => {
-    localVue = createLocalVue()
-    localVue.use(VueRouter)
-    localVue.use(VueCookies)
-
+  it('play music', () => {
     nock('https://example.com')
       .get('/01')
       .reply(200, music)
-  })
 
-  it('play music', () => {
     const wrapper = shallowMount(Player, {
       localVue,
       propsData: {

@@ -237,55 +237,9 @@ export default {
       if (this.audio) {
         this.audio.muted = muted
       }
-    }
-  },
-  mounted() {
-    // Audio init
-    this.audio = this.$refs.audio
-    this.audio.preload = 'auto'
-
-    // Autoplay
-    this.audio.autoplay = Boolean(this.autoplay)
-    this.played = Boolean(this.autoplay)
-
-    this.loadAudio()
-
-    // Audio events
-    this.audio.onloadedmetadata = () => {
-      this.duration = this.audio.duration
-    }
-    this.audio.oncanplay = () => {
-      this.$emit('on-audio-load-end')
-
-      this.$refs.volume.initVolume()
-    }
-    this.audio.onplay = () => {
-      this.played = true
-    }
-    this.audio.onpause = () => {
-      this.played = false
-    }
-    this.audio.onended = () => {
-      this.repeat()
-    }
-    this.audio.onerror = () => {
-      this.error = true
-      this.$emit('on-error')
-      this.$emit('on-audio-load-end')
-      this.repeat()
-    }
-    this.audio.ontimeupdate = () => {
-      this.duration = this.audio.duration
-      this.currentTime = this.audio.currentTime
-    }
-    this.audio.onvolumechange = () => {
-      this.volume = this.audio.volume
-    }
-
-    const vm = this
-
-    // Keyboard
-    window.addEventListener('keydown', e => {
+    },
+    keyEvent(e) {
+      const vm = this
       const keys = [
         { // Play/Pause (Space)
           code: 32,
@@ -338,12 +292,63 @@ export default {
       ]
 
       keys.forEach(keyData => {
-        if (e.keyCode === keyData.code && keyData.run) {
+        const hasKeyCode = e.keyCode === keyData.code
+        const isNotSearchInput = !e.target.matches('input.search-input')
+        if (hasKeyCode && keyData.run && isNotSearchInput) {
           e.preventDefault()
           keyData.run()
         }
       })
-    })
+    }
+  },
+  mounted() {
+    // Audio init
+    this.audio = this.$refs.audio
+    this.audio.preload = 'auto'
+
+    // Autoplay
+    this.audio.autoplay = Boolean(this.autoplay)
+    this.played = Boolean(this.autoplay)
+
+    this.loadAudio()
+
+    // Audio events
+    this.audio.onloadedmetadata = () => {
+      this.duration = this.audio.duration
+    }
+    this.audio.oncanplay = () => {
+      this.$emit('on-audio-load-end')
+
+      this.$refs.volume.initVolume()
+    }
+    this.audio.onplay = () => {
+      this.played = true
+    }
+    this.audio.onpause = () => {
+      this.played = false
+    }
+    this.audio.onended = () => {
+      this.repeat()
+    }
+    this.audio.onerror = () => {
+      this.error = true
+      this.$emit('on-error')
+      this.$emit('on-audio-load-end')
+      this.repeat()
+    }
+    this.audio.ontimeupdate = () => {
+      this.duration = this.audio.duration
+      this.currentTime = this.audio.currentTime
+    }
+    this.audio.onvolumechange = () => {
+      this.volume = this.audio.volume
+    }
+
+    // Keyboard event
+    window.addEventListener('keydown', this.keyEvent)
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.keyEvent)
   }
 }
 </script>

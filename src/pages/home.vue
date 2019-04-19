@@ -5,6 +5,8 @@
         <img class="title-logo" src="@/assets/logo.png" alt="ycsAudio Logo">
         {{ pkg.fullname }}
       </router-link>
+
+      <search></search>
     </div>
 
     <player
@@ -39,12 +41,14 @@ import pkg from '@/../package.json'
 import { getAudio, getList } from '../lib/util'
 import Player from '@/components/player.vue'
 import Playlist from '@/components/playlist.vue'
+import Search from '@/components/search.vue'
 
 export default {
   name: 'Home',
   components: {
     Player,
-    Playlist
+    Playlist,
+    Search
   },
   data() {
     return {
@@ -65,6 +69,7 @@ export default {
         const id = query.id
         const listId = query.list
 
+        // Set audio data
         if (id) {
           const audio = getAudio(id)
           if (audio) {
@@ -77,6 +82,7 @@ export default {
           this.initAudio()
         }
 
+        // Set list data
         if (listId) {
           const list = getList(listId)
           if (list) {
@@ -89,7 +95,11 @@ export default {
           this.initLiat()
         }
 
+        // Set title
         this.setTitle()
+
+        // Scroll to top
+        window.scrollTo(0, 0)
       },
       immediate: true
     }

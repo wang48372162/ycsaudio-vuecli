@@ -2,14 +2,10 @@ import PlayerVolume from '@/components/player-volume.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueCookies from 'vue-cookies'
 
-let localVue
+let localVue = createLocalVue()
+localVue.use(VueCookies)
 
 describe('PlayerVolume', () => {
-  beforeEach(() => {
-    localVue = createLocalVue()
-    localVue.use(VueCookies)
-  })
-
   it('emitted on-change-progress (change volume)', () => {
     const wrapper = mount(PlayerVolume, {
       localVue

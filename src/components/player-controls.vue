@@ -213,15 +213,9 @@ export default {
 $button-size: 50px;
 
 .button {
-  display: inline-block !important;
   width: $button-size;
   height: $button-size;
   padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  outline: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   svg {
     width: $button-size;

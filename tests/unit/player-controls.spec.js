@@ -3,15 +3,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
 
-let localVue
+let localVue = createLocalVue()
+localVue.use(VueRouter)
+localVue.use(VueCookies)
 
 describe('PlayerControls', () => {
-  beforeEach(() => {
-    localVue = createLocalVue()
-    localVue.use(VueRouter)
-    localVue.use(VueCookies)
-  })
-
   it('emitted on-play', () => {
     const wrapper = mount(PlayerControls, {
       localVue

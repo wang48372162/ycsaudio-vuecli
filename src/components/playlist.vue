@@ -42,7 +42,7 @@ export default {
       }
     },
     audioList() {
-      return this.audios.map(id => getAudio(id))
+      return this.audios.map(getAudio)
     }
   },
   methods: {

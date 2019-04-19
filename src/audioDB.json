@@ -1,5 +1,5 @@
 {
-  "audio": [
+  "audios": [
     {
       "id": "1",
       "url": "https://drive.google.com/uc?id=0B5XlWkPFp7CSQllJcWlzS1Zza28",
@@ -281,7 +281,7 @@
       "title": "37 forget-me-not"
     }
   ],
-  "list": [
+  "lists": [
     {
       "id": "Miyazaki_Hayao",
       "name": "宮崎駿",

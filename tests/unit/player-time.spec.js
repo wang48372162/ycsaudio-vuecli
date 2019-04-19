@@ -14,4 +14,17 @@ describe('PlayerTime', () => {
   <span>02:03</span></div>`
     expect(wrapper.html()).toBe(expectedHtml)
   })
+
+  it('set NaN duration', () => {
+    const wrapper = mount(PlayerTime, {
+      propsData: {
+        duration: undefined,
+        currentTime: undefined
+      }
+    })
+    const expectedHtml = `<div><span>00:00</span>
+  /
+  <span>00:00</span></div>`
+    expect(wrapper.html()).toBe(expectedHtml)
+  })
 })
