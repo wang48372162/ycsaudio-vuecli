@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "6eef031d3fd494e12ace",
+    "revision": "d424f075026132db7c80",
     "url": "/ycsaudio/css/app.841a7620.css"
   },
   {
-    "revision": "6eef031d3fd494e12ace",
-    "url": "/ycsaudio/js/app.3c8080b7.js"
+    "revision": "d424f075026132db7c80",
+    "url": "/ycsaudio/js/app.fcf8de3f.js"
   },
   {
     "revision": "2639ab931b883feba421",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/ycsaudio/img/logo.44aae1c4.png"
   },
   {
-    "revision": "65676fc3fe8b177e5f1ec515f35c041f",
+    "revision": "129881b020aaa7b944c5a4c8392a02ce",
     "url": "/ycsaudio/index.html"
   },
   {
