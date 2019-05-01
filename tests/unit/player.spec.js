@@ -10,7 +10,7 @@ let localVue = createLocalVue()
 localVue.use(VueRouter)
 localVue.use(VueCookies)
 
-let music = fs.readFileSync(path.resolve(__dirname, '../../mocks/music.mp3'))
+let music = fs.readFileSync(path.resolve(__dirname, '../mocks/music.mp3'))
 
 describe('Player', () => {
   it('play music', () => {

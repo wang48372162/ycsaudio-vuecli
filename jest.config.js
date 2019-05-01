@@ -14,7 +14,7 @@ module.exports = {
     '/node_modules/'
   ],
   moduleNameMapper: {
-    '^.+/audioDB.json$': '<rootDir>/mocks/audioDB.json',
+    '^.+/audioDB.json$': '<rootDir>/tests/mocks/audioDB.json',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   snapshotSerializers: [
