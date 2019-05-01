@@ -207,6 +207,11 @@ export default {
   li {
     padding: 0.5rem 1rem;
   }
+  .search-none {
+    color: $gray;
+    text-align: center;
+    padding: 0.5rem 1rem;
+  }
 }
 .search-link-audio-list {
   display: inline-block;
