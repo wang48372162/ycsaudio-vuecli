@@ -6,24 +6,33 @@
 
     <div v-if="show" class="search-block">
       <h2 class="search-title">搜尋</h2>
-      <input v-model="search" ref="search" type="text" class="search-input" placeholder="搜尋...">
+      <input
+        v-model="search"
+        ref="search"
+        type="text"
+        class="search-input"
+        placeholder="搜尋..."
+        @keydown.prevent.down="searchKeydown"
+        @keydown.prevent.up="searchKeyup"
+        @keydown.enter="searchEnter"
+      >
 
-      <div v-if="result" class="search-result">
+      <div v-if="result" ref="searchResult" class="search-result">
         <template v-if="result.audios.length">
           <h3>歌曲：</h3>
           <ul>
-            <li v-for="audio in result.audios" :key="audio.id">
-              <router-link :to="audioTo(audio.id)">
+            <li v-for="(audio, index) in result.audios" :key="audio.id" ref="searchResultAudios">
+              <router-link :to="audioTo(audio.id)" :class="getLinkClass(index, selectAudioIndex)">
                 {{ audio.title }}
-              </router-link>
 
-              <!-- Audio List link -->
-              <router-link
-                v-if="list && audioListTo(audio.id)"
-                :to="audioTo(audio.id, true)"
-                class="search-link-audio-list"
-              >
-                {{ list.name }}
+                <!-- Audio List link -->
+                <router-link
+                  v-if="list && audioListTo(audio.id)"
+                  :to="audioTo(audio.id, true)"
+                  class="search-link-audio-list"
+                >
+                  {{ list.name }}
+                </router-link>
               </router-link>
             </li>
           </ul>
@@ -32,8 +41,8 @@
         <template v-if="result.lists.length">
           <h3>播放清單：</h3>
           <ul>
-            <li v-for="list in result.lists" :key="list.id">
-              <router-link :to="listTo(list.id)">
+            <li v-for="(list, index) in result.lists" :key="list.id" ref="searchResultLists">
+              <router-link :to="listTo(list.id)" :class="getLinkClass(index, selectListIndex)">
                 {{ list.name }}
               </router-link>
             </li>
@@ -60,19 +69,28 @@ export default {
   data() {
     return {
       show: false,
-      search: ''
+      search: '',
+      selectIndex: null
     }
   },
   watch: {
     $route() {
       this.show = false
       this.search = ''
+      this.selectIndex = null
     },
     show(show) {
       if (show) {
         this.$nextTick(() => {
           this.$refs.search.focus()
         })
+      }
+    },
+    search(search) {
+      if (search === '' || search === null) {
+        this.selectIndex = null
+      } else {
+        this.selectIndex = (this.result.audios.length + this.result.lists.length > 0) ? 0 : null
       }
     }
   },
@@ -95,7 +113,9 @@ export default {
       }
     },
     resultEmpty() {
-      if (!this.result) return true
+      if (!this.result) {
+        return true
+      }
       return !this.result.audios.length && !this.result.lists.length
     },
     queryListId() {
@@ -103,6 +123,48 @@ export default {
     },
     list() {
       return this.queryListId ? getList(this.queryListId) : null
+    },
+    selectAudioIndex() {
+      if (!this.result) {
+        return null
+      }
+      if (this.selectIndex >= this.result.audios.length) {
+        return null
+      }
+
+      return this.selectIndex
+    },
+    selectListIndex() {
+      if (!this.result) {
+        return null
+      }
+      if (this.selectIndex < this.result.audios.length) {
+        return null
+      }
+
+      return this.selectIndex - this.result.audios.length
+    },
+    selectAudio() {
+      return this.selectAudioIndex !== null ? this.result.audios[this.selectAudioIndex] : null
+    },
+    selectList() {
+      return this.selectListIndex !== null ? this.result.lists[this.selectListIndex] : null
+    },
+    selectAudioEl() {
+      return this.selectAudioIndex !== null ? this.$refs.searchResultAudios[this.selectAudioIndex] : null
+    },
+    selectListEl() {
+      return this.selectListIndex !== null ? this.$refs.searchResultLists[this.selectListIndex] : null
+    },
+    selectLinkRoute() {
+      if (!this.result) {
+        return null
+      } else if (this.selectAudio) {
+        return this.audioTo(this.selectAudio.id)
+      } else if (this.selectList) {
+        return this.listTo(this.selectList.id)
+      }
+      return null
     }
   },
   methods: {
@@ -128,6 +190,58 @@ export default {
     },
     audioListTo(audioId) {
       return listContainAudio(this.queryListId, audioId) ? this.queryListId : null
+    },
+    getLinkClass(index, selectIndex) {
+      return {
+        active: index === selectIndex
+      }
+    },
+    selectScrollIntoView() {
+      const options = {
+        block: 'nearest'
+      }
+      if (this.selectAudio) {
+        this.selectAudioEl.scrollIntoView(options)
+      } else if (this.selectList) {
+        this.selectListEl.scrollIntoView(options)
+      }
+    },
+    searchKeydown() {
+      if (!this.result) {
+        return null
+      }
+
+      const resultsLength = this.result.audios.length + this.result.lists.length
+      if (this.selectIndex === null) {
+        this.selectIndex = 0
+      } else if (this.selectIndex < (resultsLength - 1)) {
+        this.selectIndex++
+      }
+
+      this.selectScrollIntoView()
+    },
+    searchKeyup() {
+      if (!this.result) {
+        return null
+      }
+
+      if (this.selectIndex > 0) {
+        this.selectIndex--
+      }
+
+      this.selectScrollIntoView()
+    },
+    searchEnter() {
+      if (this.selectIndex === null) {
+        return
+      }
+
+      const selectLinkRoute = this.selectLinkRoute
+      if (selectLinkRoute !== null) {
+        this.search = ''
+        this.selectIndex = null
+        this.$router.push(selectLinkRoute)
+      }
     }
   }
 }
@@ -191,6 +305,7 @@ export default {
   }
 }
 .search-result {
+  position: relative;
   max-height: 25rem;
   margin: 1rem -1rem -1rem;
   overflow-x: hidden;
@@ -204,8 +319,20 @@ export default {
     padding: 0;
     margin: 0 0 0.5rem;
   }
-  li {
+  a:not(.search-link-audio-list) {
+    display: block;
     padding: 0.5rem 1rem;
+    &:hover {
+      background: darken($white, 5%);
+    }
+    &.active {
+      color: $white;
+      background: $primary;
+      .search-link-audio-list {
+        color: $primary;
+        background: $white;
+      }
+    }
   }
   .search-none {
     color: $gray;
