@@ -92,7 +92,7 @@ export default {
           }
         }
         if (!listId || !this.listId) {
-          this.initLiat()
+          this.initList()
         }
 
         // Set title
@@ -110,7 +110,7 @@ export default {
       this.audioSrc = ''
       this.audioTitle = ''
     },
-    initLiat() {
+    initList() {
       this.listId = ''
       this.listTitle = ''
       this.listAudios = ''
