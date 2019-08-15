@@ -10,12 +10,6 @@
 安裝依賴：
 
 ```
-npm install
-```
-
-或
-
-```
 yarn install
 ```
 
