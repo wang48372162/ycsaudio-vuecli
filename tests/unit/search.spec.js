@@ -23,7 +23,7 @@ describe('Search', () => {
     const expected = {
       audios: [
         {
-          id: '2',
+          id: 2,
           title: 'Audio 02',
           url: 'https://example.com/02'
         }
@@ -32,7 +32,7 @@ describe('Search', () => {
         {
           id: 'song-2',
           name: '歌曲2',
-          audios: ['1', '3']
+          audios: [1, 3]
         }
       ]
     }
@@ -60,7 +60,7 @@ describe('Search', () => {
     const expected = {
       audios: [
         {
-          id: '2',
+          id: 2,
           title: 'Audio 02',
           url: 'https://example.com/02'
         }
@@ -69,7 +69,7 @@ describe('Search', () => {
         {
           id: 'song-2',
           name: '歌曲2',
-          audios: ['1', '3']
+          audios: [1, 3]
         }
       ]
     }

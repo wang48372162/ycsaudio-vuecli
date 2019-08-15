@@ -1,7 +1,7 @@
-import audioDB from '@/audioDB.json'
+import audioDB from '@/audioDB.yml'
 
 export const getAudio = (id) => {
-  return audioDB.audios.find(v => v.id === id)
+  return audioDB.audios.find(v => v.id === Number(id))
 }
 
 export const getAudios = () => audioDB.audios
@@ -14,6 +14,7 @@ export const getList = (id) => {
   if (typeof list.audios === 'string') {
     list.audios = list.audios.split(',')
   }
+  list.audios = list.audios.map(id => Number(id))
   return list
 }
 
@@ -24,7 +25,7 @@ export const listContainAudio = (listId, audioId) => {
   if (!list) {
     return false
   }
-  return Boolean(list.audios.find(id => id === audioId))
+  return Boolean(list.audios.find(id => id === Number(audioId)))
 }
 
 export const getListAudioIndex = (listId, audioId) => {
@@ -32,7 +33,7 @@ export const getListAudioIndex = (listId, audioId) => {
   if (!list) {
     return
   }
-  return list.audios.findIndex(id => id === audioId)
+  return list.audios.findIndex(id => id === Number(audioId))
 }
 
 export const floatFormet = (number, pow = 4) => {

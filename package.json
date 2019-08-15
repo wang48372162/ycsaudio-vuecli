@@ -35,6 +35,8 @@
     "nock": "^10.0.6",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-cli-plugin-yaml": "^1.0.1",
+    "vue-template-compiler": "^2.6.10",
+    "yaml-jest": "^1.0.5"
   }
 }

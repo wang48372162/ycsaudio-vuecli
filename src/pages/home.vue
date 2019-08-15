@@ -66,8 +66,8 @@ export default {
   watch: {
     $route: {
       handler({ query }) {
-        const id = query.id ? String(query.id) : null
-        const listId = query.list ? String(query.list) : null
+        const id = query.id ? Number(query.id) : 0
+        const listId = query.list ? String(query.list) : ''
 
         // Set audio data
         if (id) {

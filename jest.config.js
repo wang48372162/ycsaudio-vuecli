@@ -3,18 +3,20 @@ module.exports = {
     'js',
     'jsx',
     'json',
-    'vue'
+    'vue',
+    'yml'
   ],
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.jsx?$': 'babel-jest',
+    '\\.ya?ml$': 'yaml-jest'
   },
   transformIgnorePatterns: [
     '/node_modules/'
   ],
   moduleNameMapper: {
-    '^.+/audioDB.json$': '<rootDir>/tests/mocks/audioDB.json',
+    '^.+/audioDB.yml$': '<rootDir>/tests/mocks/audioDB.yml',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   snapshotSerializers: [

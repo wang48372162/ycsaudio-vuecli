@@ -74,8 +74,8 @@ export default {
       type: String,
       default: ''
     },
-    prevId: String,
-    nextId: String,
+    prevId: Number,
+    nextId: Number,
     error: {
       type: Boolean,
       default: false

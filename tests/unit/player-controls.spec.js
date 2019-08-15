@@ -101,8 +101,8 @@ describe('PlayerControls', () => {
       stubs: ['router-link'],
       propsData: {
         listId: 'song',
-        prevId: '1',
-        nextId: '3'
+        prevId: 1,
+        nextId: 3
       }
     })
 

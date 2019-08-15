@@ -21,7 +21,7 @@ describe('Player', () => {
     const wrapper = shallowMount(Player, {
       localVue,
       propsData: {
-        id: '1',
+        id: 1,
         src: 'https://example.com/01',
         title: 'Audio 01'
       }
