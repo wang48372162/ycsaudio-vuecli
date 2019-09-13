@@ -1,38 +1,38 @@
 audios:
   - id: 1
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/01 世界的約定(霍爾的移動城堡).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/01 世界的約定(霍爾的移動城堡).mp3
     title: 01 世界的約定(霍爾的移動城堡)
 
   - id: 2
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/02 人生的旋轉木馬(霍爾的移動城堡).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/02 人生的旋轉木馬(霍爾的移動城堡).mp3
     title: 02 人生的旋轉木馬(霍爾的移動城堡)
 
   - id: 3
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/03 化成風(貓的報恩).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/03 化成風(貓的報恩).mp3
     title: 03 化成風(貓的報恩)
 
   - id: 4
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/04 總是一次又一次(神隱少女).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/04 總是一次又一次(神隱少女).mp3
     title: 04 總是一次又一次(神隱少女)
 
   - id: 5
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/05 生命之名(神隱少女).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/05 生命之名(神隱少女).mp3
     title: 05 生命之名(神隱少女)
 
   - id: 6
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/06 阿希達卡與珊(魔法公主).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/06 阿希達卡與珊(魔法公主).mp3
     title: 06 阿希達卡與珊(魔法公主)
 
   - id: 7
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/07 魔法公主(魔法公主).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/07 魔法公主(魔法公主).mp3
     title: 07 魔法公主(魔法公主)
 
   - id: 8
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/08 故鄉的街道(清心悅耳 或 心之谷).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/08 故鄉的街道(清心悅耳 或 心之谷).mp3
     title: 08 故鄉的街道(清心悅耳 或 心之谷)
 
   - id: 9
-    ur: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/09 魯修的口信(魔女宅急便).mp3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/09 魯修的口信(魔女宅急便).mp3
     title: 09 魯修的口信(魔女宅急便)
 
   - id: 10
