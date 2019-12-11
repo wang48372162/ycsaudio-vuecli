@@ -1,0 +1,261 @@
+audios:
+  - id: 1
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/01 世界的約定(霍爾的移動城堡).mp3
+    title: 01 世界的約定(霍爾的移動城堡)
+
+  - id: 2
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/02 人生的旋轉木馬(霍爾的移動城堡).mp3
+    title: 02 人生的旋轉木馬(霍爾的移動城堡)
+
+  - id: 3
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/03 化成風(貓的報恩).mp3
+    title: 03 化成風(貓的報恩)
+
+  - id: 4
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/04 總是一次又一次(神隱少女).mp3
+    title: 04 總是一次又一次(神隱少女)
+
+  - id: 5
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/05 生命之名(神隱少女).mp3
+    title: 05 生命之名(神隱少女)
+
+  - id: 6
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/06 阿希達卡與珊(魔法公主).mp3
+    title: 06 阿希達卡與珊(魔法公主)
+
+  - id: 7
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/07 魔法公主(魔法公主).mp3
+    title: 07 魔法公主(魔法公主)
+
+  - id: 8
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/08 故鄉的街道(清心悅耳 或 心之谷).mp3
+    title: 08 故鄉的街道(清心悅耳 或 心之谷)
+
+  - id: 9
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/09 魯修的口信(魔女宅急便).mp3
+    title: 09 魯修的口信(魔女宅急便)
+
+  - id: 10
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/10 好像能恢復元氣了(魔女宅急便).mp3
+    title: 10 好像能恢復元氣了(魔女宅急便)
+
+  - id: 11
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/11 季節的迴轉(魔女宅急便).mp3
+    title: 11 季節的迴轉(魔女宅急便)
+
+  - id: 12
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/12 鄰家的龍貓(龍貓).mp3
+    title: 12 鄰家的龍貓(龍貓)
+
+  - id: 13
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/13 散步(龍貓).mp3
+    title: 13 散步(龍貓)
+
+  - id: 14
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/14 載著你(天空之城).mp3
+    title: 14 載著你(天空之城)
+
+  - id: 15
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/15 風之谷的娜烏西卡(風之谷).mp3
+    title: 15 風之谷的娜烏西卡(風之谷)
+
+  - id: 16
+    url: https://wang48372162.github.io/ycsaudio-data/Miyazaki_Hayao/16 娜烏西卡安魂曲(風之谷).mp3
+    title: 16 娜烏西卡安魂曲(風之谷)
+
+  - id: 17
+    url: https://wang48372162.github.io/ycsaudio-data/song/01 茜色の空.mp3
+    title: 01 茜色の空
+
+  - id: 18
+    url: https://wang48372162.github.io/ycsaudio-data/song/02 Blue Moon.mp3
+    title: 02 Blue Moon
+
+  - id: 19
+    url: https://wang48372162.github.io/ycsaudio-data/song/03 ありがとう～大きくカンシャ！～.mp3
+    title: 03 ありがとう～大きくカンシャ！～
+
+  - id: 20
+    url: https://wang48372162.github.io/ycsaudio-data/song/04 名偵探柯南 春之歌.mp3
+    title: 04 名偵探柯南 春之歌
+
+  - id: 21
+    url: https://wang48372162.github.io/ycsaudio-data/song/05 START DASH SENSATION.mp3
+    title: 05 START DASH SENSATION
+
+  - id: 22
+    url: https://wang48372162.github.io/ycsaudio-data/song/06 Lucky Train!.mp3
+    title: 06 Lucky Train!
+
+  - id: 28
+    url: https://wang48372162.github.io/ycsaudio-data/song/07 Start Line!.mp3
+    title: 07 Start Line!
+
+  - id: 29
+    url: https://wang48372162.github.io/ycsaudio-data/song/08 ふたつのねがい.mp3
+    title: 08 ふたつのねがい
+
+  - id: 30
+    url: https://wang48372162.github.io/ycsaudio-data/song/09 STARDOM!.mp3
+    title: 09 STARDOM!
+
+  - id: 31
+    url: https://wang48372162.github.io/ycsaudio-data/song/10 COLORFUL BOX.mp3
+    title: 10 COLORFUL BOX
+
+  - id: 32
+    url: https://wang48372162.github.io/ycsaudio-data/song/11 PoppinParty 前へススメ！.mp3
+    title: 11 PoppinParty 前へススメ！
+
+  - id: 33
+    url: https://wang48372162.github.io/ycsaudio-data/song/12 Prisma☆Illya 2wei Herz! ワンダーステラ.mp3
+    title: 12 Prisma☆Illya 2wei Herz! ワンダーステラ
+
+  - id: 34
+    url: https://wang48372162.github.io/ycsaudio-data/song/13 sisters noise.mp3
+    title: 13 sisters noise
+
+  - id: 35
+    url: https://wang48372162.github.io/ycsaudio-data/song/14 未来の僕らは知ってるよ.mp3
+    title: 14 未来の僕らは知ってるよ
+
+  - id: 36
+    url: https://wang48372162.github.io/ycsaudio-data/song/15 CLEAR.mp3
+    title: 15 CLEAR
+
+  - id: 37
+    url: https://wang48372162.github.io/ycsaudio-data/song/16 Daydream café.mp3
+    title: 16 Daydream café
+
+  - id: 38
+    url: https://wang48372162.github.io/ycsaudio-data/song/17 High Free Spirits.mp3
+    title: 17 High Free Spirits
+
+  - id: 39
+    url: https://wang48372162.github.io/ycsaudio-data/song/18 セカイがカフェになっちゃっ(點兔).mp3
+    title: 18 セカイがカフェになっちゃっ(點兔)
+
+  - id: 40
+    url: https://wang48372162.github.io/ycsaudio-data/song/19 Memories(comic girls).mp3
+    title: 19 Memories(comic girls)
+
+  - id: 41
+    url: https://wang48372162.github.io/ycsaudio-data/song/20 SAKURAスキップ.mp3
+    title: 20 SAKURAスキップ
+
+  - id: 42
+    url: https://wang48372162.github.io/ycsaudio-data/song/21 STEP by STEP UP.mp3
+    title: 21 STEP by STEP UP
+
+  - id: 43
+    url: https://wang48372162.github.io/ycsaudio-data/song/22 地平線ストライド.mp3
+    title: 22 地平線ストライド
+
+  - id: 44
+    url: https://wang48372162.github.io/ycsaudio-data/song/23 色違いの翼.mp3
+    title: 23 色違いの翼
+
+  - id: 45
+    url: https://wang48372162.github.io/ycsaudio-data/song/24 SHaVaDaVa in AMAZING.mp3
+    title: 24 SHaVaDaVa in AMAZING
+
+  - id: 46
+    url: https://wang48372162.github.io/ycsaudio-data/song/25 RO-KYU-BU!  SHOOT!.mp3
+    title: 25 RO-KYU-BU!  SHOOT!
+
+  - id: 47
+    url: https://wang48372162.github.io/ycsaudio-data/song/26 大切がきこえる.mp3
+    title: 26 大切がきこえる
+
+  - id: 48
+    url: https://wang48372162.github.io/ycsaudio-data/song/27 HOWLING.mp3
+    title: 27 HOWLING
+
+  - id: 49
+    url: https://wang48372162.github.io/ycsaudio-data/song/28 グローリア（鳴護アリサ）.mp3
+    title: 28 グローリア（鳴護アリサ）
+
+  - id: 50
+    url: https://wang48372162.github.io/ycsaudio-data/song/29 進化系Colors.mp3
+    title: 29 進化系Colors
+
+  - id: 51
+    url: https://wang48372162.github.io/ycsaudio-data/song/30 17才 (色づく世界の明日から).mp3
+    title: 30 17才 (色づく世界の明日から)
+
+  - id: 52
+    url: https://wang48372162.github.io/ycsaudio-data/song/31 ハナノイロ (花咲くいろは).mp3
+    title: 31 ハナノイロ (花咲くいろは)
+
+  - id: 53
+    url: https://wang48372162.github.io/ycsaudio-data/song/32 ワンダードライブ  (アリスと蔵六 OP).mp3
+    title: 32 ワンダードライブ  (アリスと蔵六 OP)
+
+  - id: 54
+    url: https://wang48372162.github.io/ycsaudio-data/song/33 DREAM SOLISTER.mp3
+    title: 33 DREAM SOLISTER
+
+  - id: 55
+    url: https://wang48372162.github.io/ycsaudio-data/song/901 猫の恩返し-風になる.mp3
+    title: 901 猫の恩返し-風になる
+
+  - id: 56
+    url: https://wang48372162.github.io/ycsaudio-data/song/902 いのちの名前-生命之名(千と千尋の神隠し).mp3
+    title: 902 いのちの名前-生命之名(千と千尋の神隠し)
+
+  - id: 57
+    url: https://wang48372162.github.io/ycsaudio-data/song/903 テルーの唄-瑟魯之歌.mp3
+    title: 903 テルーの唄-瑟魯之歌
+
+  - id: 58
+    url: https://wang48372162.github.io/ycsaudio-data/song/34 RISE.mp3
+    title: 34 RISE
+
+  - id: 59
+    url: https://wang48372162.github.io/ycsaudio-data/song/35 I swear (Date A Live Ⅲ).mp3
+    title: 35 I swear (Date A Live Ⅲ)
+
+  - id: 60
+    url: https://wang48372162.github.io/ycsaudio-data/song/36 星のダイアローグ (繁星的對白).mp3
+    title: 36 星のダイアローグ (繁星的對白)
+
+  - id: 61
+    url: https://wang48372162.github.io/ycsaudio-data/song/37 Los! Los! Los!.mp3
+    title: 37 Los! Los! Los!
+
+  - id: 62
+    url: https://wang48372162.github.io/ycsaudio-data/song/38 Your song - Log horizon.mp3
+    title: 38 Your song - Log horizon
+
+  - id: 63
+    url: https://wang48372162.github.io/ycsaudio-data/song/39 Iris.mp3
+    title: 39 Iris
+
+  - id: 64
+    url: https://wang48372162.github.io/ycsaudio-data/song/40 RESISTER.mp3
+    title: 40 RESISTER
+
+  - id: 65
+    url: https://wang48372162.github.io/ycsaudio-data/song/41 forget-me-not.mp3
+    title: 41 forget-me-not
+
+  - id: 66
+    url: https://wang48372162.github.io/ycsaudio-data/song/42 願い～あの頃のキミへ～.mp3
+    title: 42 願い～あの頃のキミへ～
+
+  - id: 67
+    url: https://wang48372162.github.io/ycsaudio-data/song/43 Deep in Abyss.mp3
+    title: 43 Deep in Abyss
+
+lists:
+  - id: Miyazaki_Hayao
+    name: 宮崎駿
+    audios: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+
+  - id: song
+    name: 歌曲
+    audios: 17,18,19,20,21,22,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,58,59,60,61,62,63,64,65,66,67,55,56,57
+
+  - id: song-2
+    name: 歌曲2
+    audios: 37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,58,59,60,61,62,63,64,65,66,67

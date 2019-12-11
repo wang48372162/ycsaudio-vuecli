@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - 12
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+jobs:
+  include:
+    - stage: lint
+      name: "Lint"
+      script: yarn lint
+    - stage: test
+      name: "Unit Test"
+      script: yarn test
+    - stage: deploy
+      name: "Deploy to GitHub Pages"
+      script: yarn build
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        keep_history: true
+        on:
+          branch: master

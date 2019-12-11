@@ -1,0 +1,65 @@
+@import 'variables';
+@import 'mixin';
+
+* {
+  box-sizing: border-box;
+  font-family: 'Microsoft JhengHei', serif;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0;
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+}
+
+.button {
+  display: inline-block !important;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.title-wrapper {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin: 0 auto 1rem;
+  max-width: 500px;
+  @include box-shadow();
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.card-body {
+  padding: 1.25rem;
+}
+
+#nprogress {
+  .bar {
+    height: 3px !important;
+    background: $primary !important;
+  }
+  .peg {
+    box-shadow: 0 0 10px $primary, 0 0 5px $primary !important;
+  }
+  .spinner {
+    display: none !important;
+  }
+}
