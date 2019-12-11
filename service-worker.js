@@ -1,4 +1,4 @@
-importScripts("/ycsaudio/precache-manifest.680e1ac427ac6806ff86344f900842ba.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/ycsaudio/precache-manifest.615be30f8254b9c5a7a9350e2675ec7d.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 // This is the code piece that GenerateSW mode can't provide for us.
 // This code listens for the user's confirmation to update the app.
