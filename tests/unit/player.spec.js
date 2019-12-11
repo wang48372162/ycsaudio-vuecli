@@ -6,11 +6,11 @@ import nock from 'nock'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
 
-let localVue = createLocalVue()
+const localVue = createLocalVue()
 localVue.use(VueRouter)
 localVue.use(VueCookies)
 
-let music = fs.readFileSync(path.resolve(__dirname, '../mocks/music.mp3'))
+const music = fs.readFileSync(path.resolve(__dirname, '../mocks/music.mp3'))
 
 describe('Player', () => {
   it('play music', () => {

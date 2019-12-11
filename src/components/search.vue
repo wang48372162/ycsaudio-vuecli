@@ -175,7 +175,7 @@ export default {
     },
     audioTo(id, useList = false) {
       const list = this.audioListTo(id)
-      let query = { id }
+      const query = { id }
       if (list && useList) {
         query.list = list
       }

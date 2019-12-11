@@ -7,7 +7,7 @@ export const getAudio = (id) => {
 export const getAudios = () => audioDB.audios
 
 export const getList = (id) => {
-  let list = audioDB.lists.find(v => v.id === id)
+  const list = audioDB.lists.find(v => v.id === id)
   if (!list) {
     return
   }

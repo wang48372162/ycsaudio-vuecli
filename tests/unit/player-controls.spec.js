@@ -3,7 +3,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
 
-let localVue = createLocalVue()
+const localVue = createLocalVue()
 localVue.use(VueRouter)
 localVue.use(VueCookies)
 

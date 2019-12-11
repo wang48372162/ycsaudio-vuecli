@@ -123,7 +123,7 @@ export default {
     },
     prevId() {
       let id
-      let index = this.audioIndex - 1
+      const index = this.audioIndex - 1
 
       if (!this.listId || index < -1) return
 
@@ -142,7 +142,7 @@ export default {
     },
     nextId() {
       let id
-      let index = this.audioIndex + 1
+      const index = this.audioIndex + 1
 
       if (!this.listId) return
 

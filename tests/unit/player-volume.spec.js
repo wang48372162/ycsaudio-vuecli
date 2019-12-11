@@ -2,7 +2,7 @@ import PlayerVolume from '@/components/player-volume.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueCookies from 'vue-cookies'
 
-let localVue = createLocalVue()
+const localVue = createLocalVue()
 localVue.use(VueCookies)
 
 describe('PlayerVolume', () => {
