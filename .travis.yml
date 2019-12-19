@@ -17,6 +17,7 @@ jobs:
       script: yarn test
     - stage: deploy
       name: "Deploy to GitHub Pages"
+      local_dir: dist
       script: yarn build
       deploy:
         provider: pages
