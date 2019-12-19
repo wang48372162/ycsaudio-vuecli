@@ -1,3 +1,5 @@
+importScripts("/ycsaudio/precache-manifest.241b2d9ab36d77b3af96b18b01cf2142.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+
 // This is the code piece that GenerateSW mode can't provide for us.
 // This code listens for the user's confirmation to update the app.
 self.addEventListener('message', (e) => {
@@ -21,3 +23,4 @@ workbox.clientsClaim();
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
