@@ -74,7 +74,7 @@ describe('PlayerControls', () => {
   })
 
   it('init set repeat cookie', () => {
-    localVue.cookies.set('YCSAUDIO_REPEAT_STATUS', 2)
+    localVue.$cookies.set('YCSAUDIO_REPEAT_STATUS', 2)
 
     const wrapper = mount(PlayerControls, {
       localVue
@@ -85,7 +85,7 @@ describe('PlayerControls', () => {
   })
 
   it('init get repeat cookie value is "1" and listId nit found', async () => {
-    localVue.cookies.set('YCSAUDIO_REPEAT_STATUS', 1)
+    localVue.$cookies.set('YCSAUDIO_REPEAT_STATUS', 1)
 
     const wrapper = mount(PlayerControls, {
       localVue
