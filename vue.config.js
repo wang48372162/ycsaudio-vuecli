@@ -6,11 +6,6 @@ module.exports = {
     name: 'ycsAudio',
     themeColor: '#202020',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black',
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      swSrc: './src/sw.js',
-      swDest: 'service-worker.js'
-    }
+    appleMobileWebAppStatusBarStyle: 'black'
   }
 }
