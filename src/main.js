@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 import NProgress from 'vue-nprogress'
-import App from './App.vue'
+import App from './App'
 import router from './router'
 import './registerServiceWorker'
-import './assets/app.scss'
+import './assets/scss/app.scss'
 
 Vue.config.productionTip = false
 

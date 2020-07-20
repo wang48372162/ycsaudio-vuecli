@@ -1,5 +1,5 @@
-import ProbressBar from '@/components/progress-bar.vue'
 import { mount } from '@vue/test-utils'
+import ProbressBar from '@/components/ProgressBar'
 
 describe('ProbressBar', () => {
   it('should numberToPercentage method apply', () => {

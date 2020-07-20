@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import { floatFormet } from '../lib/util'
-import ProgressBar from './progress-bar.vue'
+import { floatFormet } from '@/lib/util'
+import ProgressBar from '@/components/ProgressBar'
 
 export default {
   name: 'PlayerVolume',
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
+@import '@/assets/scss/_variables.scss';
 
 #player-volume {
   display: flex;

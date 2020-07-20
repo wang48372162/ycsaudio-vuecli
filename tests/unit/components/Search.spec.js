@@ -1,5 +1,5 @@
-import Search from '@/components/search.vue'
 import { mount } from '@vue/test-utils'
+import Search from '@/components/Search'
 
 describe('Search', () => {
   it('default search input is empty', () => {

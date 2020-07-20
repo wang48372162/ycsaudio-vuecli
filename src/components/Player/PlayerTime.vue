@@ -1,8 +1,6 @@
 <template>
   <div>
-    <span>{{ currentTimeText }}</span>
-    /
-    <span>{{ durationText }}</span>
+    <span>{{ currentTimeText }}</span> / <span>{{ durationText }}</span>
   </div>
 </template>
 

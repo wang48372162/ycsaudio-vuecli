@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { floatFormet } from '../lib/util'
+import { floatFormet } from '@/lib/util'
 
 export default {
   name: 'ProbressBar',
@@ -165,7 +165,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
+@import '@/assets/scss/_variables.scss';
 
 .progress {
   position: relative;

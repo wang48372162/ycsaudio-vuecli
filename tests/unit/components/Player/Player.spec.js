@@ -1,16 +1,16 @@
-import Player from '@/components/player.vue'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import fs from 'fs'
 import path from 'path'
 import nock from 'nock'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
+import Player from '@/components/Player/Player'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 localVue.use(VueCookies)
 
-const music = fs.readFileSync(path.resolve(__dirname, '../mocks/music.mp3'))
+const music = fs.readFileSync(path.resolve(__dirname, '../../../mocks/music.mp3'))
 
 describe('Player', () => {
   it('play music', () => {

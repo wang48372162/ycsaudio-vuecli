@@ -2,11 +2,11 @@
   <div>
     <div class="title-wrapper">
       <router-link to="/" class="title">
-        <img class="title-logo" src="@/assets/logo.png" alt="ycsAudio Logo">
+        <img class="title-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
         {{ pkg.fullname }}
       </router-link>
 
-      <search></search>
+      <search />
     </div>
 
     <player
@@ -17,17 +17,17 @@
       :list-id="listId"
       @on-audio-load-start="audioLoadStart"
       @on-audio-load-end="audioLoadEnd"
-    ></player>
+    />
 
     <playlist
       v-if="listId"
       :id="listId"
       :title="listTitle"
       :audios="listAudios"
-    ></playlist>
+    />
 
     <div v-if="!audioId && !listId" class="home">
-      <img class="home-logo" src="@/assets/logo.png" alt="ycsAudio Logo">
+      <img class="home-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
 
       <div class="description">
         {{ pkg.description }}
@@ -38,10 +38,10 @@
 
 <script>
 import pkg from '@/../package.json'
-import { getAudio, getList } from '../lib/util'
-import Player from '@/components/player.vue'
-import Playlist from '@/components/playlist.vue'
-import Search from '@/components/search.vue'
+import { getAudio, getList } from '@/lib/util'
+import Player from '@/components/Player/Player'
+import Playlist from '@/components/Playlist'
+import Search from '@/components/Search'
 
 export default {
   name: 'Home',

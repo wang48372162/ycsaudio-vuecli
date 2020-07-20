@@ -53,11 +53,11 @@
 </template>
 
 <script>
-import { getList, getListAudioIndex } from '../lib/util'
-import PlayerControls from './player-controls.vue'
-import PlayerTime from './player-time.vue'
-import PlayerVolume from './player-volume.vue'
-import ProgressBar from './progress-bar.vue'
+import { getList, getListAudioIndex } from '@/lib/util'
+import PlayerControls from '@/components/Player/PlayerControls'
+import PlayerTime from '@/components/Player/PlayerTime'
+import PlayerVolume from '@/components/Player/PlayerVolume'
+import ProgressBar from '@/components/ProgressBar'
 
 export default {
   name: 'Player',
@@ -354,7 +354,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
+@import '@/assets/scss/_variables.scss';
 
 .player-title {
   font-size: 1.5rem;

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getAudios, getList, getLists, listContainAudio } from '../lib/util'
+import { getAudios, getList, getLists, listContainAudio } from '@/lib/util'
 
 export default {
   name: 'Search',
@@ -248,8 +248,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
-@import '@/assets/_mixin.scss';
+@import '@/assets/scss/_variables.scss';
+@import '@/assets/scss/_mixin.scss';
 
 .search-wrapper {
   position: relative;

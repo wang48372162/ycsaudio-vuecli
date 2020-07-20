@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { getAudio } from '../lib/util'
+import { getAudio } from '@/lib/util'
 
 export default {
   name: 'PlayerControls',
@@ -208,7 +208,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
+@import '@/assets/scss/_variables.scss';
 
 $button-size: 50px;
 

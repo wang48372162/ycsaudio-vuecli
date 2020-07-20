@@ -1,7 +1,7 @@
-import PlayerControls from '@/components/player-controls.vue'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import VueCookies from 'vue-cookies'
+import PlayerControls from '@/components/Player/PlayerControls'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)

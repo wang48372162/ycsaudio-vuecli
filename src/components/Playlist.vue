@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getAudio } from '../lib/util'
+import { getAudio } from '@/lib/util'
 
 export default {
   name: 'Playlist',
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/_variables.scss';
+@import '@/assets/scss/_variables.scss';
 
 .play-list {
   .list-title {

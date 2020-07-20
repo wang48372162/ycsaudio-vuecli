@@ -1,4 +1,4 @@
-import Playlist from '@/components/playlist.vue'
+import Playlist from '@/components/Playlist'
 import { mount } from '@vue/test-utils'
 
 describe('Playlist', () => {
