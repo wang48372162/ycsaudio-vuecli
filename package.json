@@ -24,7 +24,6 @@
     "@vue/cli-service": "^4.4.6",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/test-utils": "1.0.3",
-    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "codecov": "^3.7.1",
@@ -38,7 +37,6 @@
     "nock": "^13.0.2",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
-    "tape": "^5.0.1",
     "vue-cli-plugin-yaml": "^1.0.2",
     "vue-template-compiler": "^2.6.11",
     "yaml-jest": "^1.0.5"
