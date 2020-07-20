@@ -107,10 +107,10 @@ describe('PlayerControls', () => {
     })
 
     const btnPrev = wrapper.find('.button-prev')
-    expect(btnPrev.is('router-link-stub')).toBe(true)
+    expect(btnPrev.element.tagName).toBe('router-link-stub'.toUpperCase())
 
     const btnNext = wrapper.find('.button-next')
-    expect(btnNext.is('router-link-stub')).toBe(true)
+    expect(btnNext.element.tagName).toBe('router-link-stub'.toUpperCase())
   })
 
   it('should see disabled prev button and next button', () => {
@@ -122,9 +122,9 @@ describe('PlayerControls', () => {
     })
 
     const btnPrev = wrapper.find('.button-prev')
-    expect(btnPrev.is('div')).toBe(true)
+    expect(btnPrev.element.tagName).toBe('div'.toUpperCase())
 
     const btnNext = wrapper.find('.button-next')
-    expect(btnNext.is('div')).toBe(true)
+    expect(btnNext.element.tagName).toBe('div'.toUpperCase())
   })
 })
