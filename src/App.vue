@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div id="app" class="page-container">
     <nprogress-container></nprogress-container>
 
     <router-view />
@@ -15,9 +15,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.app {
-  padding: 1rem;
-}
-</style>

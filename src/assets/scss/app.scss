@@ -3,7 +3,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Microsoft JhengHei', serif;
+  font-family: 'system-ui', serif;
 }
 
 html, body {
@@ -18,6 +18,10 @@ h1, h2, h3, h4, h5, h6, p {
 a {
   color: $primary;
   text-decoration: none;
+}
+
+.page-container {
+  padding: 1rem;
 }
 
 .button {
