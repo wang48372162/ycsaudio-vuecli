@@ -1,17 +1,17 @@
 <template>
-  <div id="app" class="page-container">
-    <nprogress-container></nprogress-container>
-
-    <router-view />
-  </div>
+  <component :is="layout" class="page-container">
+    <router-view @layout="updateLayout" />
+  </component>
 </template>
 
 <script>
-import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
+import { setLayout } from '@/layouts'
 
 export default {
-  components: {
-    NprogressContainer
+  setup() {
+    return {
+      ...setLayout()
+    }
   }
 }
 </script>

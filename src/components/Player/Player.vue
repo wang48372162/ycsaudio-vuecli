@@ -1,16 +1,12 @@
 <template>
   <div class="card player">
     <div class="card-body">
-      <audio ref="audio">
-        HTML5 Audio not supported
-      </audio>
+      <audio ref="audioRef">HTML5 Audio not supported</audio>
 
-      <h1 class="player-title">
-        {{ title }}
-      </h1>
+      <h1 class="player-title">{{ title }}</h1>
 
       <player-controls
-        ref="controls"
+        ref="controlsRef"
         class="player-controls"
         :played="played"
         :repeat-status="repeatStatus"
@@ -18,55 +14,57 @@
         :prev-id="prevId"
         :next-id="nextId"
         :error="error"
-        @on-play="clickPlay"
-        @on-stop="clickStop"
-        @on-update-repeat="clickRepeat"
-      ></player-controls>
+        @play="clickPlay"
+        @stop="clickStop"
+        @update-repeat="clickRepeat"
+      />
 
       <div class="row">
         <player-time
           class="player-time"
           :duration="duration"
           :current-time="currentTime"
-        ></player-time>
+        />
 
         <player-volume
-          ref="volume"
+          ref="volumeRef"
           :value="volume"
           :total="volumeTotal"
           :muted="muted"
-          @on-change-progress="changeVolume"
-          @on-muted="changeMuted"
-        ></player-volume>
+          @change-progress="changeVolume"
+          @muted="changeMuted"
+        />
       </div>
 
       <progress-bar
-        ref="progressbar"
+        ref="progressbarRef"
         id="player-progressbar"
         :value="currentTime"
         :total="duration"
         :error="error"
-        @on-change-progress="changeProgress"
-      ></progress-bar>
+        @change-progress="changeProgress"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { getList, getListAudioIndex } from '@/lib/util'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { getList, getAudioIndexFromList } from '@/ycsaudio'
 import PlayerControls from '@/components/Player/PlayerControls'
 import PlayerTime from '@/components/Player/PlayerTime'
 import PlayerVolume from '@/components/Player/PlayerVolume'
 import ProgressBar from '@/components/ProgressBar'
 
 export default {
-  name: 'Player',
   components: {
     PlayerControls,
     PlayerTime,
     PlayerVolume,
     ProgressBar
   },
+  emits: ['before-load', 'loaded-dom', 'loaded', 'error'],
   props: {
     id: {
       type: Number,
@@ -89,204 +87,204 @@ export default {
       default: ''
     }
   },
-  data() {
-    return {
-      audio: null,
-      played: false,
-      error: false,
-      repeatStatus: 0,
-      duration: 0,
-      currentTime: 0,
-      volume: 1,
-      volumeTotal: 1,
-      muted: false
-    }
-  },
-  watch: {
-    src: 'loadAudio'
-  },
-  computed: {
-    audioIndex() {
-      return this.id
-        ? getListAudioIndex(this.listId, this.id)
-        : null
-    },
-    listAudios() {
-      const list = getList(this.listId)
-      return list ? list.audios : null
-    },
-    repeatAll() {
-      return this.repeatStatus === 1
-    },
-    repeatOne() {
-      return this.repeatStatus === 2
-    },
-    prevId() {
-      let id
-      const index = this.audioIndex - 1
+  setup(props, { emit }) {
+    const router = useRouter()
+    const audioRef = ref(null)
+    const controlsRef = ref(null)
+    const progressbarRef = ref(null)
+    const volumeRef = ref(null)
+    const played = ref(false)
+    const error = ref(false)
+    const repeatStatus = ref(0)
+    const duration = ref(0)
+    const currentTime = ref(0)
+    const volume = ref(1)
+    const volumeTotal = ref(1)
+    const muted = ref(false)
 
-      if (!this.listId || index < -1) return
+    const audioIndex = computed(() => {
+      return props.id
+        ? getAudioIndexFromList(props.listId, props.id)
+        : null
+    })
+
+    const listAudios = computed(() => {
+      const list = getList(props.listId)
+      return list ? list.audios : null
+    })
+
+    const repeatAll = computed(() => {
+      return repeatStatus.value === 1
+    })
+
+    const repeatOne = computed(() => {
+      return repeatStatus.value === 2
+    })
+
+    const prevId = computed(() => {
+      const index = audioIndex.value - 1
+
+      if (!props.listId || index < -1) return
 
       // If repeat mode is all,
       // and prev audio is last audio.
-      if (
-        this.repeatAll &&
-        index === -1
-      ) {
-        id = this.listAudios[this.listAudios.length - 1]
-      } else {
-        id = this.listAudios[index]
+      if (repeatAll.value && index === -1) {
+        return listAudios.value[listAudios.value.length - 1]
       }
+      return listAudios.value[index]
+    })
 
-      return id
-    },
-    nextId() {
-      let id
-      const index = this.audioIndex + 1
+    const nextId = computed(() => {
+      const index = audioIndex.value + 1
 
-      if (!this.listId) return
-
-      if (index > this.listAudios.length) return
+      if (!props.listId) return
+      if (index > listAudios.value.length) return
 
       // If repeat mode is all,
       // and next audio is last audio.
       if (
-        this.repeatAll &&
-        index === this.listAudios.length
+        repeatAll.value &&
+        index === listAudios.value.length
       ) {
-        id = this.listAudios[0]
-      } else {
-        id = this.listAudios[index]
+        return listAudios.value[0]
       }
+      return listAudios.value[index]
+    })
 
-      return id
-    }
-  },
-  methods: {
-    loadAudio() {
-      this.$emit('on-audio-load-start')
+    function loadAudio() {
+      emit('before-load')
 
       // Audio Src
-      this.audio.src = this.src
-      this.error = false
+      audioRef.value.src = props.src
+      error.value = false
 
-      this.$emit('on-audio-loaded', this.audio)
-    },
-    clickPlay() {
-      if (this.error) return null
+      emit('loaded-dom', audioRef.value)
+    }
 
-      if (this.audio) {
-        if (this.audio.paused) {
-          this.audio.play()
+    function clickPlay() {
+      if (error.value) return null
+
+      if (audioRef.value) {
+        if (audioRef.value.paused) {
+          audioRef.value.play()
         } else {
-          this.audio.pause()
+          audioRef.value.pause()
         }
 
-        this.played = Boolean(this.audio.paused)
+        played.value = Boolean(audioRef.value.paused)
       }
-    },
-    clickStop() {
-      if (this.error) return null
+    }
 
-      this.audio.currentTime = 0
-      if (!this.audio.paused) {
-        this.audio.pause()
+    function clickStop() {
+      if (error.value) return null
+
+      audioRef.value.currentTime = 0
+      if (!audioRef.value.paused) {
+        audioRef.value.pause()
       }
-      this.played = false
-    },
-    clickRepeat(status) {
-      if (this.error) return null
+      played.value = false
+    }
 
-      this.repeatStatus = status
-    },
-    async repeat() {
-      if (this.listId && this.nextId && !this.repeatOne) {
-        if (this.error) {
+    function clickRepeat(status) {
+      if (error.value) return null
+
+      repeatStatus.value = status
+    }
+
+    async function repeat() {
+      if (props.listId && nextId.value && !repeatOne.value) {
+        if (error.value) {
           await new Promise(resolve => {
             setTimeout(resolve, 3e3)
           })
         }
 
-        this.$router.push({
-          query: {
-            id: this.nextId,
-            list: this.listId
-          }
+        const query = props.listId
+          ? { list: props.listId }
+          : {}
+
+        router.push({
+          name: 'audio',
+          params: { audio: nextId.value },
+          query
         })
       }
 
-      if (this.repeatOne && !this.error) {
-        this.audio.currentTime = 0
-        this.audio.play()
+      if (repeatOne.value && !error.value) {
+        audioRef.value.currentTime = 0
+        audioRef.value.play()
       }
-    },
-    changeProgress(currentTime) {
-      this.currentTime = currentTime
-      if (this.audio) {
-        this.audio.currentTime = currentTime
+    }
+
+    function changeProgress(newCurrentTime) {
+      currentTime.value = newCurrentTime
+      if (audioRef.value) {
+        audioRef.value.currentTime = newCurrentTime
       }
-    },
-    changeVolume(volume) {
-      this.volume = volume
-      if (this.audio) {
-        this.audio.volume = volume
+    }
+
+    function changeVolume(newVolume) {
+      volume.value = newVolume
+      if (audioRef.value) {
+        audioRef.value.volume = newVolume
       }
-    },
-    changeMuted(muted) {
-      this.muted = muted
-      if (this.audio) {
-        this.audio.muted = muted
+    }
+
+    function changeMuted(newMuted) {
+      muted.value = newMuted
+      if (audioRef.value) {
+        audioRef.value.muted = newMuted
       }
-    },
-    keyEvent(e) {
-      const vm = this
+    }
+
+    function keyEvent(e) {
       const keys = [
         { // Play/Pause (Space)
           code: 32,
-          run: () => {
-            vm.clickPlay()
+          run() {
+            clickPlay()
           }
         },
         { // Stop (S)
           code: 83,
-          run: () => {
-            vm.clickStop()
+          run() {
+            clickStop()
           }
         },
         { // Repeat (R)
           code: 82,
-          run: () => {
-            vm.$refs.controls.repeat()
+          run() {
+            controlsRef.value.repeat()
           }
         },
         { // Backward Audio (ArrowLeft)
           code: 37,
-          run: () => {
-            vm.$refs.progressbar.updateProgress(vm.currentTime - 5)
+          run() {
+            progressbarRef.value.updateProgress(currentTime.value - 5)
           }
         },
         { // Forward Audio (ArrowRight)
           code: 39,
-          run: () => {
-            vm.$refs.progressbar.updateProgress(vm.currentTime + 5)
+          run() {
+            progressbarRef.value.updateProgress(currentTime.value + 5)
           }
         },
         { // Volume Up (ArrowUp)
           code: 38,
-          run: () => {
-            vm.$refs.volume.changeVolume(vm.volume + 0.05)
+          run() {
+            volumeRef.value.changeVolume(volume.value + 0.05)
           }
         },
         { // Volume Down (ArrowDown)
           code: 40,
-          run: () => {
-            vm.$refs.volume.changeVolume(vm.volume - 0.05)
+          run() {
+            volumeRef.value.changeVolume(volume.value - 0.05)
           }
         },
         { // Muted (M)
           code: 77,
-          run: () => {
-            vm.$refs.volume.clickMuted()
+          run() {
+            volumeRef.value.clickMuted()
           }
         }
       ]
@@ -300,55 +298,93 @@ export default {
         }
       })
     }
-  },
-  mounted() {
-    // Audio init
-    this.audio = this.$refs.audio
-    this.audio.preload = 'auto'
 
-    // Autoplay
-    this.audio.autoplay = Boolean(this.autoplay)
-    this.played = Boolean(this.autoplay)
+    onMounted(() => {
+      // Audio init
+      audioRef.value.preload = 'auto'
 
-    this.loadAudio()
+      // Autoplay
+      audioRef.value.autoplay = props.autoplay
+      played.value = props.autoplay
 
-    // Audio events
-    this.audio.onloadedmetadata = () => {
-      this.duration = this.audio.duration
-    }
-    this.audio.oncanplay = () => {
-      this.$emit('on-audio-load-end')
+      loadAudio()
 
-      this.$refs.volume.initVolume()
-    }
-    this.audio.onplay = () => {
-      this.played = true
-    }
-    this.audio.onpause = () => {
-      this.played = false
-    }
-    this.audio.onended = () => {
-      this.repeat()
-    }
-    this.audio.onerror = () => {
-      this.error = true
-      this.$emit('on-error')
-      this.$emit('on-audio-load-end')
-      this.repeat()
-    }
-    this.audio.ontimeupdate = () => {
-      this.duration = this.audio.duration
-      this.currentTime = this.audio.currentTime
-    }
-    this.audio.onvolumechange = () => {
-      this.volume = this.audio.volume
-    }
+      // Audio events
+      audioRef.value.onloadedmetadata = function () {
+        duration.value = this.duration
+      }
+      audioRef.value.oncanplay = function () {
+        emit('loaded')
 
-    // Keyboard event
-    window.addEventListener('keydown', this.keyEvent)
-  },
-  destroyed() {
-    window.removeEventListener('keydown', this.keyEvent)
+        volumeRef.value.initVolume()
+      }
+      audioRef.value.onplay = function () {
+        played.value = true
+      }
+      audioRef.value.onpause = function () {
+        played.value = false
+      }
+      audioRef.value.onended = function () {
+        repeat()
+      }
+      audioRef.value.onerror = function () {
+        error.value = true
+        emit('error')
+        emit('loaded')
+        repeat()
+      }
+      audioRef.value.ontimeupdate = function () {
+        duration.value = this.duration
+        currentTime.value = this.currentTime
+      }
+      audioRef.value.onvolumechange = function () {
+        volume.value = this.volume
+      }
+
+      // Keyboard event
+      window.addEventListener('keydown', keyEvent)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('keydown', keyEvent)
+    })
+
+    watch(() => props.src, loadAudio)
+
+    return {
+      // Data
+      audioRef,
+      controlsRef,
+      progressbarRef,
+      volumeRef,
+      played,
+      error,
+      repeatStatus,
+      duration,
+      currentTime,
+      volume,
+      volumeTotal,
+      muted,
+
+      // Computed
+      audioIndex,
+      listAudios,
+      repeatAll,
+      repeatOne,
+      prevId,
+      nextId,
+
+      // Method
+      loadAudio,
+      clickPlay,
+      clickStop,
+      clickRepeat,
+      repeat,
+      changeProgress,
+      changeVolume,
+      changeMuted,
+      keyEvent
+    }
   }
 }
 </script>

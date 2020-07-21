@@ -6,7 +6,7 @@
 
     <ul class="list-audios">
       <li v-for="audio in audioList" :key="audio.id">
-        <router-link :to="audioTo(audio.id)" :class="linkCls(audio.id)">
+        <router-link :to="audioTo(audio.id)" :class="linkClass(audio.id)">
           {{ audio.title }}
         </router-link>
       </li>
@@ -15,7 +15,9 @@
 </template>
 
 <script>
-import { getAudio } from '@/lib/util'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { getAudio } from '@/ycsaudio'
 
 export default {
   name: 'Playlist',
@@ -33,31 +35,47 @@ export default {
       required: true
     }
   },
-  computed: {
-    listTitleTo() {
+  setup(props) {
+    const route = useRoute()
+
+    const listTitleTo = computed(() => {
+      if (!props.id) {
+        return {}
+      }
       return {
-        query: {
-          list: this.id
+        name: 'playlist',
+        params: {
+          playlist: props.id
         }
       }
-    },
-    audioList() {
-      return this.audios.map(getAudio)
+    })
+
+    const audioList = computed(() => {
+      return props.audios.map(getAudio)
+    })
+
+    function audioTo(audioId) {
+      return {
+        name: 'audio',
+        params: { audio: audioId },
+        query: { list: props.id }
+      }
     }
-  },
-  methods: {
-    audioTo(id) {
+
+    function linkClass(id) {
       return {
-        query: {
-          id,
-          list: this.id
-        }
+        active: Number(id) === Number(route.params.audio)
       }
-    },
-    linkCls(id) {
-      return {
-        active: id === this.$route.query.id
-      }
+    }
+
+    return {
+      // Computed
+      listTitleTo,
+      audioList,
+
+      // Method
+      audioTo,
+      linkClass
     }
   }
 }

@@ -1,21 +1,18 @@
-import Vue from 'vue'
-import VueCookies from 'vue-cookies'
-import NProgress from 'vue-nprogress'
+import { createApp } from 'vue'
+import { router } from './router'
+import storage from './modules/storage'
+import nprogress from './modules/nprogress'
+import layouts from './layouts'
 import App from './App'
-import router from './router'
 import './registerServiceWorker'
 import './assets/scss/app.scss'
 
-Vue.config.productionTip = false
-
-Vue.use(NProgress)
-const nprogress = new NProgress()
-
-Vue.use(VueCookies)
-VueCookies.config('1y')
-
-new Vue({
-  router,
-  nprogress,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App)
+  .use(router)
+  .use(storage)
+  .use(nprogress, {
+    parent: '#app',
+    showSpinner: false
+  })
+  .use(layouts)
+  .mount('#app')

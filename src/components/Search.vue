@@ -8,7 +8,7 @@
       <h2 class="search-title">搜尋</h2>
       <input
         v-model="search"
-        ref="search"
+        ref="searchRef"
         type="text"
         class="search-input"
         placeholder="搜尋..."
@@ -21,17 +21,26 @@
         <template v-if="result.audios.length">
           <h3>歌曲：</h3>
           <ul>
-            <li v-for="(audio, index) in result.audios" :key="audio.id" ref="searchResultAudios">
-              <router-link :to="audioTo(audio.id)" :class="getLinkClass(index, selectAudioIndex)">
+            <li
+              v-for="(audio, i) in result.audios"
+              :key="audio.id"
+              :ref="el => { searchResultAudiosRefs[i] = el }"
+            >
+              <router-link
+                :to="audioTo(audio.id)"
+                :class="getLinkClass(i, selectAudioIndex)"
+                @click="onClickLink"
+              >
                 {{ audio.title }}
 
                 <!-- Audio List link -->
                 <router-link
-                  v-if="list && audioListTo(audio.id)"
+                  v-if="currentList && audioListTo(audio.id)"
                   :to="audioTo(audio.id, true)"
                   class="search-link-audio-list"
+                  @click="onClickLink"
                 >
-                  {{ list.name }}
+                  {{ currentList.name }}
                 </router-link>
               </router-link>
             </li>
@@ -41,8 +50,16 @@
         <template v-if="result.lists.length">
           <h3>播放清單：</h3>
           <ul>
-            <li v-for="(list, index) in result.lists" :key="list.id" ref="searchResultLists">
-              <router-link :to="listTo(list.id)" :class="getLinkClass(index, selectListIndex)">
+            <li
+              v-for="(list, i) in result.lists"
+              :key="list.id"
+              :ref="el => { searchResultListsRefs[i] = el }"
+            >
+              <router-link
+                :to="listTo(list.id)"
+                :class="getLinkClass(i, selectListIndex)"
+                @click="onClickLink"
+              >
                 {{ list.name }}
               </router-link>
             </li>
@@ -62,186 +79,230 @@
 </template>
 
 <script>
-import { getAudios, getList, getLists, listContainAudio } from '@/lib/util'
+import { ref, computed, watch, nextTick, onBeforeUpdate } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getAudios, getList, getLists, listContainAudio } from '@/ycsaudio'
 
 export default {
-  name: 'Search',
-  data() {
-    return {
-      show: false,
-      search: '',
-      selectIndex: null
-    }
-  },
-  watch: {
-    $route() {
-      this.show = false
-      this.search = ''
-      this.selectIndex = null
-    },
-    show(show) {
-      if (show) {
-        this.$nextTick(() => {
-          this.$refs.search.focus()
-        })
-      }
-    },
-    search(search) {
-      if (search === '' || search === null) {
-        this.selectIndex = null
-      } else {
-        this.selectIndex = (this.result.audios.length + this.result.lists.length > 0) ? 0 : null
-      }
-    }
-  },
-  computed: {
-    result() {
-      if (!this.search) {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+    const show = ref(false)
+    const search = ref('')
+    const selectIndex = ref(null)
+    const searchRef = ref(null)
+    const searchResultAudiosRefs = ref([])
+    const searchResultListsRefs = ref([])
+
+    const result = computed(() => {
+      if (!search.value) {
         return
       }
 
       const audios = getAudios().filter(audio => {
-        return this.searchText(this.search, audio.title)
+        return searchText(search.value, audio.title)
       })
       const lists = getLists().filter(list => {
-        return this.searchText(this.search, list.name)
+        return searchText(search.value, list.name)
       })
 
-      return {
-        audios,
-        lists
-      }
-    },
-    resultEmpty() {
-      if (!this.result) {
+      return { audios, lists }
+    })
+
+    const resultEmpty = computed(() => {
+      if (!result.value) {
         return true
       }
-      return !this.result.audios.length && !this.result.lists.length
-    },
-    queryListId() {
-      return this.$route.query && this.$route.query.list
-    },
-    list() {
-      return this.queryListId ? getList(this.queryListId) : null
-    },
-    selectAudioIndex() {
-      if (!this.result) {
-        return null
-      }
-      if (this.selectIndex >= this.result.audios.length) {
-        return null
-      }
+      return !result.value.audios.length && !result.value.lists.length
+    })
 
-      return this.selectIndex
-    },
-    selectListIndex() {
-      if (!this.result) {
+    const selectAudioIndex = computed(() => {
+      if (!result.value) {
         return null
       }
-      if (this.selectIndex < this.result.audios.length) {
+      if (selectIndex.value >= result.value.audios.length) {
         return null
       }
+      return selectIndex.value
+    })
 
-      return this.selectIndex - this.result.audios.length
-    },
-    selectAudio() {
-      return this.selectAudioIndex !== null ? this.result.audios[this.selectAudioIndex] : null
-    },
-    selectList() {
-      return this.selectListIndex !== null ? this.result.lists[this.selectListIndex] : null
-    },
-    selectAudioEl() {
-      return this.selectAudioIndex !== null ? this.$refs.searchResultAudios[this.selectAudioIndex] : null
-    },
-    selectListEl() {
-      return this.selectListIndex !== null ? this.$refs.searchResultLists[this.selectListIndex] : null
-    },
-    selectLinkRoute() {
-      if (!this.result) {
+    const selectAudio = computed(() => selectAudioIndex.value !== null
+      ? result.value.audios[selectAudioIndex.value] : null)
+
+    const selectAudioEl = computed(() => selectAudioIndex.value !== null
+      ? searchResultAudiosRefs.value[selectAudioIndex.value] : null)
+
+    const selectListIndex = computed(() => {
+      if (!result.value) {
         return null
-      } else if (this.selectAudio) {
-        return this.audioTo(this.selectAudio.id)
-      } else if (this.selectList) {
-        return this.listTo(this.selectList.id)
+      } else if (selectIndex.value < result.value.audios.length) {
+        return null
+      }
+      return selectIndex.value - result.value.audios.length
+    })
+
+    const selectList = computed(() => selectListIndex.value !== null
+      ? result.value.lists[selectListIndex.value] : null)
+
+    const selectListEl = computed(() => selectListIndex.value !== null
+      ? searchResultListsRefs.value[selectListIndex.value] : null)
+
+    const queryListId = computed(() => route.name === 'playlist'
+      ? route.params.playlist
+      : (route.query && route.query.list))
+
+    const currentList = computed(() => queryListId.value
+      ? getList(queryListId.value) : null)
+
+    const selectLinkRoute = computed(() => {
+      if (!result.value) {
+        return null
+      } else if (selectAudio.value) {
+        return audioTo(selectAudio.value.id)
+      } else if (selectList.value) {
+        return listTo(selectList.value.id)
       }
       return null
-    }
-  },
-  methods: {
-    searchText(key, text) {
+    })
+
+    function searchText(key, text) {
       return String(text)
         .toLowerCase()
         .indexOf(key.toLowerCase()) !== -1
-    },
-    audioTo(id, useList = false) {
-      const list = this.audioListTo(id)
-      const query = { id }
-      if (list && useList) {
-        query.list = list
-      }
-      return { query }
-    },
-    listTo(list) {
-      return {
-        query: {
-          list
-        }
-      }
-    },
-    audioListTo(audioId) {
-      return listContainAudio(this.queryListId, audioId) ? this.queryListId : null
-    },
-    getLinkClass(index, selectIndex) {
+    }
+
+    function getLinkClass(index, selectIndex) {
       return {
         active: index === selectIndex
       }
-    },
-    selectScrollIntoView() {
+    }
+
+    function selectScrollIntoView() {
       const options = {
         block: 'nearest'
       }
-      if (this.selectAudio) {
-        this.selectAudioEl.scrollIntoView(options)
-      } else if (this.selectList) {
-        this.selectListEl.scrollIntoView(options)
+      if (selectAudio.value && selectAudioEl.value) {
+        selectAudioEl.value.scrollIntoView(options)
+      } else if (selectList.value && selectListEl.value) {
+        selectListEl.value.scrollIntoView(options)
       }
-    },
-    searchKeydown() {
-      if (!this.result) {
+    }
+
+    function audioListTo(audioId) {
+      return listContainAudio(queryListId.value, audioId) ? queryListId.value : null
+    }
+
+    function audioTo(id, useList = false) {
+      const list = audioListTo(id)
+      return {
+        name: 'audio',
+        params: { audio: id },
+        query: list && useList ? { list } : {}
+      }
+    }
+
+    function listTo(listId) {
+      return {
+        name: 'playlist',
+        params: {
+          playlist: listId
+        }
+      }
+    }
+
+    function onClickLink() {
+      show.value = false
+      search.value = ''
+      selectIndex.value = null
+    }
+
+    function searchEnter() {
+      const targetRoute = selectLinkRoute.value
+      if (selectIndex.value !== null && targetRoute) {
+        onClickLink()
+        router.push(targetRoute)
+      }
+    }
+
+    function searchKeydown() {
+      if (!result.value) {
         return null
       }
 
-      const resultsLength = this.result.audios.length + this.result.lists.length
-      if (this.selectIndex === null) {
-        this.selectIndex = 0
-      } else if (this.selectIndex < (resultsLength - 1)) {
-        this.selectIndex++
+      const resultsLength = result.value.audios.length + result.value.lists.length
+      if (selectIndex.value === null) {
+        selectIndex.value = 0
+      } else if (selectIndex.value < (resultsLength - 1)) {
+        selectIndex.value++
       }
 
-      this.selectScrollIntoView()
-    },
-    searchKeyup() {
-      if (!this.result) {
+      selectScrollIntoView()
+    }
+
+    function searchKeyup() {
+      if (!result.value) {
         return null
       }
 
-      if (this.selectIndex > 0) {
-        this.selectIndex--
+      if (selectIndex.value > 0) {
+        selectIndex.value--
       }
 
-      this.selectScrollIntoView()
-    },
-    searchEnter() {
-      if (this.selectIndex === null) {
-        return
-      }
+      selectScrollIntoView()
+    }
 
-      const selectLinkRoute = this.selectLinkRoute
-      if (selectLinkRoute !== null) {
-        this.search = ''
-        this.selectIndex = null
-        this.$router.push(selectLinkRoute)
+    watch(show, show => {
+      if (show) {
+        nextTick(() => searchRef.value.focus())
       }
+    })
+
+    watch(search, search => {
+      if (search === '' || search === null) {
+        selectIndex.value = null
+      } else {
+        selectIndex.value = (result.value.audios.length + result.value.lists.length > 0) ? 0 : null
+      }
+    })
+
+    onBeforeUpdate(() => {
+      searchResultAudiosRefs.value = []
+      searchResultListsRefs.value = []
+    })
+
+    return {
+      // Data
+      show,
+      search,
+      selectIndex,
+      searchRef,
+      searchResultAudiosRefs,
+      searchResultListsRefs,
+
+      // Computed
+      result,
+      resultEmpty,
+      selectAudioIndex,
+      selectAudio,
+      selectAudioEl,
+      selectListIndex,
+      selectList,
+      selectListEl,
+      queryListId,
+      currentList,
+      selectLinkRoute,
+
+      // Method
+      searchText,
+      getLinkClass,
+      selectScrollIntoView,
+      audioListTo,
+      audioTo,
+      listTo,
+      onClickLink,
+      searchEnter,
+      searchKeydown,
+      searchKeyup
     }
   }
 }

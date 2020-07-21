@@ -1,8 +1,15 @@
-import util from '@/lib/util'
+import {
+  getAudio,
+  getAudios,
+  getList,
+  getLists,
+  listContainAudio,
+  getAudioIndexFromList
+} from '@/ycsaudio/fetch'
 
-describe('util', () => {
+describe('fetch ycsAudio DB test', () => {
   it('getAudio()', () => {
-    const audioData = util.getAudio(String(1))
+    const audioData = getAudio(String(1))
     const expected = {
       id: 1,
       url: 'https://example.com/01',
@@ -12,7 +19,7 @@ describe('util', () => {
   })
 
   it('getAudios()', () => {
-    const audiosData = util.getAudios()
+    const audiosData = getAudios()
     const expected = [
       {
         id: 1,
@@ -34,7 +41,7 @@ describe('util', () => {
   })
 
   it('getList() audios typeof string', () => {
-    const listData = util.getList('song')
+    const listData = getList('song')
     const expected = {
       id: 'song',
       name: '歌曲',
@@ -44,7 +51,7 @@ describe('util', () => {
   })
 
   it('getList() audios typeof array', () => {
-    const listData = util.getList('song-2')
+    const listData = getList('song-2')
     const expected = {
       id: 'song-2',
       name: '歌曲2',
@@ -54,12 +61,12 @@ describe('util', () => {
   })
 
   it('getList() to be undefined', () => {
-    const listData = util.getList('this-list-is-null')
+    const listData = getList('this-list-is-null')
     expect(listData).toBeUndefined()
   })
 
   it('getLists()', () => {
-    const listsData = util.getLists()
+    const listsData = getLists()
     const expected = [
       {
         id: 'song',
@@ -76,27 +83,22 @@ describe('util', () => {
   })
 
   it('listContainAudio() to be true', () => {
-    const has = util.listContainAudio('song', 1)
+    const has = listContainAudio('song', 1)
     expect(has).toBe(true)
   })
 
   it('listContainAudio() set not found list', () => {
-    const has = util.listContainAudio('list-is-not-found', 100)
+    const has = listContainAudio('list-is-not-found', 100)
     expect(has).toBe(false)
   })
 
-  it('getListAudioIndex()', () => {
-    const audioIndex = util.getListAudioIndex('song', 1)
+  it('getAudioIndexFromList()', () => {
+    const audioIndex = getAudioIndexFromList('song', 1)
     expect(audioIndex).toBe(0)
   })
 
-  it('getListAudioIndex() to be -1', () => {
-    const audioIndex = util.getListAudioIndex('song', 100)
+  it('getAudioIndexFromList() to be -1', () => {
+    const audioIndex = getAudioIndexFromList('song', 100)
     expect(audioIndex).toBe(-1)
-  })
-
-  it('floatFormet()', () => {
-    const float = util.floatFormet(12.3456789, 3)
-    expect(float).toBe(12.345)
   })
 })

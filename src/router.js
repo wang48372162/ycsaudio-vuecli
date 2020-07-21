@@ -1,12 +1,13 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from './pages/Home'
+import Audio from './pages/Audio'
+import Playlist from './pages/Playlist'
 import ErrorPage from './pages/Error'
 
-Vue.use(Router)
+export const routerHistory = createWebHashHistory(process.env.BASE_URL)
 
-export default new Router({
-  base: process.env.BASE_URL,
+export const router = createRouter({
+  history: routerHistory,
   routes: [
     {
       path: '/',
@@ -14,7 +15,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '*',
+      path: '/audio/:audio',
+      name: 'audio',
+      component: Audio
+    },
+    {
+      path: '/playlist/:playlist',
+      name: 'playlist',
+      component: Playlist
+    },
+    {
+      path: '/:catchAll(.*)',
       name: 'error',
       component: ErrorPage
     }

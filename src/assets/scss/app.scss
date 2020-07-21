@@ -33,13 +33,17 @@ a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.title {
+.header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.header-title {
   font-size: 2rem;
   font-weight: bold;
 }
-.title-wrapper {
-  text-align: center;
-  margin-bottom: 1rem;
+.header-logo {
+  height: 40px;
+  vertical-align: bottom;
 }
 
 .card {

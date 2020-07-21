@@ -4,35 +4,35 @@
       <router-link
         v-if="prevId"
         :to="audioTo(prevId)"
-        :class="btnPrevCls"
-        :title="btnPrevTitle"
+        :class="classes.btnPrev"
+        :title="title.btnPrev"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-          <path class="svg-fill" :d="prevBtnPath" />
+          <path class="svg-fill" :d="path.prevBtn" />
         </svg>
       </router-link>
-      <div v-else :class="btnPrevCls" :title="btnText.prev">
+      <div v-else :class="classes.btnPrev" :title="btnText.prev">
         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-          <path class="svg-fill" :d="prevBtnPath" />
+          <path class="svg-fill" :d="path.prevBtn" />
         </svg>
       </div>
     </template>
 
-    <button :class="btnCls(playMode)" @click="play" :title="btnText[playMode]">
+    <button :class="btnClass(path.playMode)" @click="play" :title="btnText[path.playMode]">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="playBtnPath" />
+        <path class="svg-fill" :d="path.playBtn" />
       </svg>
     </button>
 
-    <button :class="btnCls('stop')" @click="stop" :title="btnText.stop">
+    <button :class="btnClass('stop')" @click="stop" :title="btnText.stop">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path class="svg-fill" :d="stopBtnPath" />
+        <path class="svg-fill" :d="path.stopBtn" />
       </svg>
     </button>
 
-    <button :class="btnCls('repeat')" @click="repeat" :title="btnText.repeatMode[repeatStatus]">
+    <button :class="btnClass('repeat')" @click="repeat" :title="btnText.repeatMode[repeatStatus]">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-        <path :class="repeatBtnPathCls" :d="repeatBtnPath" />
+        <path :class="classes.repeatBtn" :d="path.repeatBtn" />
       </svg>
     </button>
 
@@ -40,16 +40,16 @@
       <router-link
         v-if="nextId"
         :to="audioTo(nextId)"
-        :class="btnNextCls"
-        :title="btnNextTitle"
+        :class="classes.btnNext"
+        :title="title.btnNext"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-          <path class="svg-fill" :d="nextBtnPath" />
+          <path class="svg-fill" :d="path.nextBtn" />
         </svg>
       </router-link>
-      <div v-else :class="btnNextCls" :title="btnText.next">
+      <div v-else :class="classes.btnNext" :title="btnText.next">
         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-          <path class="svg-fill" :d="nextBtnPath" />
+          <path class="svg-fill" :d="path.nextBtn" />
         </svg>
       </div>
     </template>
@@ -57,10 +57,15 @@
 </template>
 
 <script>
-import { getAudio } from '@/lib/util'
+import { reactive, computed, inject, onMounted } from 'vue'
+import { getAudio } from '@/ycsaudio'
+
+const REPEAT_NONE = 0
+const REPEAT_ALL = 1
+const REPEAT_SINGLE = 2
 
 export default {
-  name: 'PlayerControls',
+  emits: ['play', 'stop', 'update-repeat'],
   props: {
     played: {
       type: Boolean,
@@ -68,7 +73,7 @@ export default {
     },
     repeatStatus: {
       type: Number,
-      default: 0
+      default: REPEAT_NONE
     },
     listId: {
       type: String,
@@ -81,127 +86,151 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-      btnText: {
-        play: '播放 (Space)',
-        pause: '暫停 (Space)',
-        stop: '停止 (S)',
-        repeat: '循環 (R)',
-        repeatMode: ['無循環', '全部循環', '單曲循環'],
-        prev: '上一首 (Left)',
-        next: '下一首 (Right)'
-      }
+  setup(props, { emit }) {
+    const storage = inject('storage')
+
+    const btnText = {
+      play: '播放 (Space)',
+      pause: '暫停 (Space)',
+      stop: '停止 (S)',
+      repeat: '循環 (R)',
+      repeatMode: ['無循環', '全部循環', '單曲循環'],
+      prev: '上一首 (Left)',
+      next: '下一首 (Right)'
     }
-  },
-  computed: {
-    playMode() {
-      return !this.played ? 'play' : 'pause'
-    },
-    playBtnPath() {
-      return !this.played
-        ? 'M 10,8 26,17 26,33 10,41 z M 26,17 41,25 41,25 26,33 z'
-        : 'M 10,8 20,8 20,41 10,41 z M 31,8 41,8 41,41 31,41 z'
-    },
-    stopBtnPath() {
-      return 'M 10,8 41,8 41,41 10,41 z'
-    },
-    repeatBtnPath() {
-      let result
-      const repeatStatusPath = 'M 48,20 38,30 28,20 35,20 35,14 16,14 16,35 35,35 35,31 41,31 41,41 10,41 10,8 41,8 41,20 z M 25,25 25,25 25,25 25,25 25,25 z'
-      const repeatStatusOnePath = 'M 48,20 38,30 28,20 35,20 35,14 16,14 16,35 35,35 35,31 41,31 41,41 10,41 10,8 41,8 41,20 z M 27,16 19,24 23,24 23,33 27,33 z'
 
-      if (this.repeatStatus === 0 || this.repeatStatus === 1) {
-        result = repeatStatusPath
-      } else if (this.repeatStatus === 2) {
-        result = repeatStatusOnePath
-      }
+    const path = reactive({
+      playMode: computed(() => {
+        return !props.played ? 'play' : 'pause'
+      }),
 
-      return result
-    },
-    repeatBtnPathCls() {
-      let result
+      playBtn: computed(() => {
+        return !props.played
+          ? 'M 10,8 26,17 26,33 10,41 z M 26,17 41,25 41,25 26,33 z'
+          : 'M 10,8 20,8 20,41 10,41 z M 31,8 41,8 41,41 31,41 z'
+      }),
 
-      if (this.repeatStatus === 0) {
-        result = 'svg-fill-s'
-      } else if (this.repeatStatus === 1) {
-        result = 'svg-fill'
-      } else if (this.repeatStatus === 2) {
-        result = 'svg-fill'
-      }
+      stopBtn: 'M 10,8 41,8 41,41 10,41 z',
 
-      return result
-    },
-    prevBtnPath() {
-      return 'M 10,8 17,8 17,41 10,41 z M 17,25 41,8 41,41 z'
-    },
-    nextBtnPath() {
-      return 'M 10,8 34,25 10,41 z M 34,8 41,8 41,41 34,41 z'
-    },
-    btnPrevCls() {
-      return this.btnCls('prev', !this.prevId)
-    },
-    btnNextCls() {
-      return this.btnCls('next', !this.nextId)
-    },
-    btnPrevTitle() {
-      return getAudio(this.prevId).title
-    },
-    btnNextTitle() {
-      return getAudio(this.nextId).title
+      repeatBtn: computed(() => {
+        const repeatStatusPath = 'M 48,20 38,30 28,20 35,20 35,14 16,14 16,35 35,35 35,31 41,31 41,41 10,41 10,8 41,8 41,20 z M 25,25 25,25 25,25 25,25 25,25 z'
+
+        const repeatStatusOnePath = 'M 48,20 38,30 28,20 35,20 35,14 16,14 16,35 35,35 35,31 41,31 41,41 10,41 10,8 41,8 41,20 z M 27,16 19,24 23,24 23,33 27,33 z'
+
+        if (props.repeatStatus === REPEAT_NONE ||
+          props.repeatStatus === REPEAT_ALL) {
+          return repeatStatusPath
+        } else if (props.repeatStatus === REPEAT_SINGLE) {
+          return repeatStatusOnePath
+        }
+        return repeatStatusPath
+      }),
+
+      prevBtn: 'M 10,8 17,8 17,41 10,41 z M 17,25 41,8 41,41 z',
+      nextBtn: 'M 10,8 34,25 10,41 z M 34,8 41,8 41,41 34,41 z'
+    })
+
+    const classes = reactive({
+      repeatBtn: computed(() => {
+        if (props.repeatStatus === REPEAT_NONE) {
+          return 'svg-fill-s'
+        } else if (props.repeatStatus === REPEAT_ALL) {
+          return 'svg-fill'
+        } else if (props.repeatStatus === REPEAT_SINGLE) {
+          return 'svg-fill'
+        }
+        return 'svg-fill-s'
+      }),
+      btnPrev: computed(() => {
+        return btnClass('prev', !props.prevId)
+      }),
+      btnNext: computed(() => {
+        return btnClass('next', !props.nextId)
+      })
+    })
+
+    const title = reactive({
+      btnPrev: computed(() => {
+        return getAudio(props.prevId).title
+      }),
+      btnNext: computed(() => {
+        return getAudio(props.nextId).title
+      })
+    })
+
+    function play() {
+      emit('play')
     }
-  },
-  methods: {
-    play() {
-      this.$emit('on-play')
-    },
-    stop() {
-      this.$emit('on-stop')
-    },
-    repeat() {
-      if (this.error) return null
 
-      if (this.repeatStatus === 0) {
-        if (!this.listId) {
-          this.updateRepeatStatus(2)
+    function stop() {
+      emit('stop')
+    }
+
+    function repeat() {
+      if (props.error) return null
+
+      if (props.repeatStatus === REPEAT_NONE) {
+        if (!props.listId) {
+          updateRepeatStatus(REPEAT_SINGLE)
         } else {
-          this.updateRepeatStatus(1)
+          updateRepeatStatus(REPEAT_ALL)
         }
-      } else if (this.repeatStatus === 1) {
-        this.updateRepeatStatus(2)
-      } else if (this.repeatStatus === 2) {
-        this.updateRepeatStatus(0)
+      } else if (props.repeatStatus === REPEAT_ALL) {
+        updateRepeatStatus(REPEAT_SINGLE)
+      } else if (props.repeatStatus === REPEAT_SINGLE) {
+        updateRepeatStatus(REPEAT_NONE)
       }
-    },
-    audioTo(id) {
+    }
+
+    function audioTo(id) {
       return {
-        query: {
-          id,
-          list: this.listId
-        }
+        name: 'audio',
+        params: { audio: id },
+        query: props.listId
+          ? { list: props.listId }
+          : {}
       }
-    },
-    updateRepeatStatus(status) {
-      this.$emit('on-update-repeat', status)
-      this.$cookies.set('YCSAUDIO_REPEAT_STATUS', status)
-    },
-    btnCls(mode, forceDisabled = false) {
+    }
+
+    function updateRepeatStatus(status) {
+      emit('update-repeat', status)
+      storage.set('YCSAUDIO_REPEAT_STATUS', status)
+    }
+
+    function btnClass(mode, forceDisabled = false) {
       return [
         'button',
         `button-${mode}`,
-        forceDisabled || this.error ? 'disabled' : ''
+        forceDisabled || props.error ? 'disabled' : ''
       ]
     }
-  },
-  created() {
-    // Repeat status init
-    const REPEAT_STATUS = Number(this.$cookies.get('YCSAUDIO_REPEAT_STATUS'))
-    if (REPEAT_STATUS) {
-      if (!this.listId && REPEAT_STATUS === 1) {
-        this.updateRepeatStatus(2)
-      } else {
-        this.updateRepeatStatus(REPEAT_STATUS)
+
+    onMounted(() => {
+      // Repeat status init
+      const REPEAT_STATUS = Number(storage.get('YCSAUDIO_REPEAT_STATUS'))
+      if (REPEAT_STATUS) {
+        if (!props.listId && REPEAT_STATUS === REPEAT_ALL) {
+          updateRepeatStatus(REPEAT_SINGLE)
+        } else {
+          updateRepeatStatus(REPEAT_STATUS)
+        }
       }
+    })
+
+    return {
+      // Data
+      btnText,
+      path,
+      classes,
+      title,
+
+      // Method
+      play,
+      stop,
+      repeat,
+      audioTo,
+      updateRepeatStatus,
+      btnClass
     }
   }
 }

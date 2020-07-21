@@ -28,16 +28,12 @@ export const listContainAudio = (listId, audioId) => {
   return Boolean(list.audios.find(id => id === Number(audioId)))
 }
 
-export const getListAudioIndex = (listId, audioId) => {
+export const getAudioIndexFromList = (listId, audioId) => {
   const list = getList(listId)
   if (!list) {
     return
   }
   return list.audios.findIndex(id => id === Number(audioId))
-}
-
-export const floatFormet = (number, pow = 4) => {
-  return Math.floor(number * Math.pow(10, pow)) / Math.pow(10, pow)
 }
 
 export default {
@@ -46,6 +42,5 @@ export default {
   getList,
   getLists,
   listContainAudio,
-  getListAudioIndex,
-  floatFormet
+  getAudioIndexFromList
 }

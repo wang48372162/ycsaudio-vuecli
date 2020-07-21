@@ -1,9 +1,9 @@
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import PlayerTime from '@/components/Player/PlayerTime'
 
 describe('PlayerTime', () => {
   it('should be able to see the time text', () => {
-    const wrapper = mount(PlayerTime, {
+    const wrapper = shallowMount(PlayerTime, {
       propsData: {
         duration: 123,
         currentTime: 77
@@ -14,7 +14,7 @@ describe('PlayerTime', () => {
   })
 
   it('set NaN duration', () => {
-    const wrapper = mount(PlayerTime, {
+    const wrapper = shallowMount(PlayerTime, {
       propsData: {
         duration: undefined,
         currentTime: undefined

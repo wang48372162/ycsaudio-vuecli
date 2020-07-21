@@ -1,137 +1,26 @@
 <template>
-  <div>
-    <div class="title-wrapper">
-      <router-link to="/" class="title">
-        <img class="title-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
-        {{ pkg.fullname }}
-      </router-link>
+  <div class="home">
+    <img class="home-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
 
-      <search />
-    </div>
-
-    <player
-      v-if="audioId"
-      :id="audioId"
-      :src="audioSrc"
-      :title="audioTitle"
-      :list-id="listId"
-      @on-audio-load-start="audioLoadStart"
-      @on-audio-load-end="audioLoadEnd"
-    />
-
-    <playlist
-      v-if="listId"
-      :id="listId"
-      :title="listTitle"
-      :audios="listAudios"
-    />
-
-    <div v-if="!audioId && !listId" class="home">
-      <img class="home-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
-
-      <div class="description">
-        {{ pkg.description }}
-      </div>
+    <div class="description">
+      {{ description }}
     </div>
   </div>
 </template>
 
 <script>
 import pkg from '@/../package.json'
-import { getAudio, getList } from '@/lib/util'
-import Player from '@/components/Player/Player'
-import Playlist from '@/components/Playlist'
-import Search from '@/components/Search'
+import { useLayout } from '@/layouts'
+import { setTitle } from '@/util'
 
 export default {
-  name: 'Home',
-  components: {
-    Player,
-    Playlist,
-    Search
-  },
-  data() {
-    return {
-      audioId: '',
-      audioSrc: '',
-      audioTitle: '',
-      listId: '',
-      listTitle: '',
-      listAudios: []
-    }
-  },
-  computed: {
-    pkg: () => pkg
-  },
-  watch: {
-    $route: {
-      handler({ query }) {
-        const id = query.id ? Number(query.id) : 0
-        const listId = query.list ? String(query.list) : ''
+  mixins: [useLayout],
+  setup() {
+    const description = pkg.description
 
-        // Set audio data
-        if (id) {
-          const audio = getAudio(id)
-          if (audio) {
-            this.audioId = id
-            this.audioSrc = audio.url
-            this.audioTitle = audio.title
-          }
-        }
-        if (!id || !this.audioId) {
-          this.initAudio()
-        }
+    setTitle()
 
-        // Set list data
-        if (listId) {
-          const list = getList(listId)
-          if (list) {
-            this.listId = list.id
-            this.listTitle = list.name
-            this.listAudios = list.audios
-          }
-        }
-        if (!listId || !this.listId) {
-          this.initList()
-        }
-
-        // Set title
-        this.setTitle()
-
-        // Scroll to top
-        window.scrollTo(0, 0)
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    initAudio() {
-      this.audioId = ''
-      this.audioSrc = ''
-      this.audioTitle = ''
-    },
-    initList() {
-      this.listId = ''
-      this.listTitle = ''
-      this.listAudios = ''
-    },
-    audioLoadStart() {
-      this.$nprogress.start()
-    },
-    audioLoadEnd() {
-      this.$nprogress.done()
-    },
-    setTitle() {
-      let subtitle
-
-      if (this.audioTitle) {
-        subtitle = this.audioTitle
-      } else if (this.listTitle) {
-        subtitle = this.listTitle
-      }
-
-      document.title = subtitle ? `${subtitle} - ${pkg.fullname}` : pkg.fullname
-    }
+    return { description }
   }
 }
 </script>
@@ -144,10 +33,6 @@ export default {
 .home-logo {
   width: 200px;
   max-width: 100%;
-}
-.title-logo {
-  height: 40px;
-  vertical-align: bottom;
 }
 .description {
   font-size: 1.5rem;

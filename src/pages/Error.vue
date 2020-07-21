@@ -1,7 +1,7 @@
 <template>
   <div class="page-error">
     <div class="error-content">
-      <img class="title-logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
+      <img class="logo" src="@/assets/images/logo.png" alt="ycsAudio Logo">
 
       <h2 class="error-title">
         {{ message }}
@@ -15,12 +15,22 @@
 </template>
 
 <script>
+import pkg from '@/../package.json'
+import { useLayout } from '@/layouts'
+
 export default {
-  name: 'Error',
-  data() {
-    return {
-      message: '頁面不存在！'
+  mixins: [useLayout],
+  methods: {
+    updateLayout() {
+      this.$emit('layout', 'blank')
     }
+  },
+  setup(props, { emit }) {
+    const message = '頁面不存在！'
+
+    document.title = `${message} - ${pkg.fullname}`
+
+    return { message }
   }
 }
 </script>
@@ -42,7 +52,7 @@ export default {
   margin-bottom: 2rem;
 }
 
-.title-logo {
+.logo {
   height: 50px;
   margin-bottom: 1.5rem;
   transform: rotate(5deg);

@@ -1,16 +1,14 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import fs from 'fs'
-import path from 'path'
+import { resolve } from 'path'
 import nock from 'nock'
 import VueRouter from 'vue-router'
-import VueCookies from 'vue-cookies'
 import Player from '@/components/Player/Player'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
-localVue.use(VueCookies)
 
-const music = fs.readFileSync(path.resolve(__dirname, '../../../mocks/music.mp3'))
+const music = fs.readFileSync(resolve(__dirname, '../../../mocks/music.mp3'))
 
 describe('Player', () => {
   it('play music', () => {
@@ -29,6 +27,6 @@ describe('Player', () => {
     expect(wrapper.vm.audio).toBeTruthy()
     expect(wrapper.vm.audio.src).toBe('https://example.com/01')
     expect(wrapper.vm.error).toBe(false)
-    expect(wrapper.emitted('on-error')).toBeFalsy()
+    expect(wrapper.emitted('error')).toBeFalsy()
   })
 })

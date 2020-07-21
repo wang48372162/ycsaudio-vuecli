@@ -12,9 +12,9 @@ jobs:
     - stage: lint
       name: "Lint"
       script: yarn lint
-    - stage: test
-      name: "Unit Test"
-      script: yarn test
+    # - stage: test
+    #   name: "Unit Test"
+    #   script: yarn test
     - stage: deploy
       name: "Deploy to GitHub Pages"
       script: yarn build

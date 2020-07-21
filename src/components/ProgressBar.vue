@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-wrapper" ref="progressbar">
+  <div class="progress-wrapper" ref="barRef">
     <div class="progress">
       <div class="bar-play" :style="progressStyle">
         <div class="bar-circle"></div>
@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { floatFormet } from '@/lib/util'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { floatFormet } from '@/util'
 
 export default {
-  name: 'ProbressBar',
   props: {
     value: {
       type: Number,
@@ -31,135 +31,159 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-      bar: null,
-      drag: false,
-      dragOffset: 0,
-      dragWidth: 0,
-      dragBarWidth: 0,
-      dragBarX: 0
-    }
-  },
-  computed: {
-    progressStyle() {
-      return {
-        width: this.progressWidth
-      }
-    },
-    progressWidth() {
+  setup(props, { emit }) {
+    const barRef = ref(null)
+    const drag = ref(false)
+    const dragOffset = ref(0)
+    const dragWidth = ref(0)
+    const dragBarWidth = ref(0)
+    const dragBarX = ref(0)
+
+    const progressWidth = computed(() => {
       let width
-      if (!this.drag) {
-        width = this.numberToPercentage(this.value, this.total)
-      } else {
-        if (!this.error) {
-          width = this.dragWidth
-        }
+      if (!drag.value) {
+        width = numberToPercentage(props.value, props.total)
+      } else if (!props.error) {
+        width = dragWidth.value
       }
       return `${width || 0}%`
-    }
-  },
-  methods: {
-    matches(e, selector) {
-      return e.target.matches(`#${this.bar.getAttribute('id')}${selector}`)
-    },
-    updateProgress(value) {
-      if (value < 0) {
-        value = 0
-      } else if (value > this.total) {
-        value = this.total
-      }
+    })
 
-      this.$emit('on-change-progress', value)
-    },
-    dragstart(e) {
-      e = this.getEvent(e)
+    const progressStyle = reactive({
+      width: progressWidth
+    })
 
-      if (this.matches(e, ' .bar-circle')) {
-        // Click on the circle
-        this.drag = true
-        this.dragOffset = e.offsetX ? e.offsetX - e.target.clientWidth / 2 : 0
-        this.dragBarWidth = this.bar.clientWidth
-        this.dragBarX = this.bar.offsetLeft
-        this.dragWidth = this.getPerWidth(e)
-      } else if (
-        this.matches(e, '.progress-wrapper') ||
-        this.matches(e, ' .progress')
-      ) {
-        // Click on the progress bar
-        this.drag = true
-        this.dragOffset = 0
-        this.dragBarWidth = this.bar.clientWidth
-        this.dragBarX = this.bar.offsetLeft
-        this.dragWidth = this.getPerWidth(e)
-      }
-    },
-    dragging(e) {
-      e = this.getEvent(e)
-      if (this.drag) {
-        this.dragWidth = this.getPerWidth(e)
-
-        if (this.isDraggingUpdate) {
-          const value = this.percentageToNumber(this.dragWidth, this.total)
-          this.updateProgress(value)
-        }
-      }
-    },
-    dragend() {
-      if (this.drag && !this.isDraggingUpdate) {
-        const value = this.percentageToNumber(this.dragWidth, this.total)
-        this.updateProgress(value)
-      }
-
-      this.drag = false
-      this.dragOffset = 0
-      this.dragWidth = 0
-      this.dragBarWidth = 0
-      this.dragBarX = 0
-    },
-    numberToPercentage(value, total) {
-      return floatFormet(100 / total * value)
-    },
-    percentageToNumber(width, total) {
-      width = Number(String(width).replace('%', ''))
-      return floatFormet(width / 100 * total)
-    },
-    getEvent(e) {
+    function getEvent(e) {
       if (e.type.indexOf('touch') !== -1) {
         e = e.touches[0]
       }
       return e
-    },
-    getPerWidth(e) {
-      let widthPx = e.clientX - this.dragOffset - this.dragBarX
+    }
+
+    function numberToPercentage(value, total) {
+      return floatFormet(100 / total * value)
+    }
+
+    function percentageToNumber(width, total) {
+      return floatFormet(Number(String(width).replace('%', '')) / 100 * total)
+    }
+
+    function getPerWidth(e) {
+      let widthPx = e.clientX - dragOffset.value - dragBarX.value
       if (widthPx < 0) {
         widthPx = 0
-      } else if (widthPx > this.dragBarWidth) {
-        widthPx = this.dragBarWidth
+      } else if (widthPx > dragBarWidth.value) {
+        widthPx = dragBarWidth.value
       }
-      return this.numberToPercentage(widthPx, this.dragBarWidth)
+      return numberToPercentage(widthPx, dragBarWidth.value)
     }
-  },
-  created() {
-    window.addEventListener('mousedown', this.dragstart)
-    window.addEventListener('mousemove', this.dragging)
-    window.addEventListener('mouseup', this.dragend)
 
-    window.addEventListener('touchstart', this.dragstart)
-    window.addEventListener('touchmove', this.dragging)
-    window.addEventListener('touchend', this.dragend)
-  },
-  mounted() {
-    this.bar = this.$refs.progressbar
-  },
-  destroyed() {
-    window.removeEventListener('mousedown', this.dragstart)
-    window.removeEventListener('mousemove', this.dragging)
-    window.removeEventListener('mouseup', this.dragend)
+    function matches(e, selector) {
+      return e.target.matches(`#${barRef.value.getAttribute('id')}${selector}`)
+    }
 
-    window.removeEventListener('touchstart', this.dragstart)
-    window.removeEventListener('touchmove', this.dragging)
-    window.removeEventListener('touchend', this.dragend)
+    function updateProgress(value) {
+      if (value < 0) {
+        value = 0
+      } else if (value > props.total) {
+        value = props.total
+      }
+
+      emit('change-progress', value)
+    }
+
+    function dragstart(e) {
+      e = getEvent(e)
+
+      if (matches(e, ' .bar-circle')) {
+        // Click on the circle
+        drag.value = true
+        dragOffset.value = e.offsetX ? e.offsetX - e.target.clientWidth / 2 : 0
+        dragBarWidth.value = barRef.value.clientWidth
+        dragBarX.value = barRef.value.offsetLeft
+        dragWidth.value = getPerWidth(e)
+      } else if (
+        matches(e, '.progress-wrapper') ||
+        matches(e, ' .progress')
+      ) {
+        // Click on the progress bar
+        drag.value = true
+        dragOffset.value = 0
+        dragBarWidth.value = barRef.value.clientWidth
+        dragBarX.value = barRef.value.offsetLeft
+        dragWidth.value = getPerWidth(e)
+      }
+    }
+
+    function dragging(e) {
+      e = getEvent(e)
+      if (drag.value) {
+        dragWidth.value = getPerWidth(e)
+
+        if (props.isDraggingUpdate) {
+          const value = percentageToNumber(dragWidth.value, props.total)
+          updateProgress(value)
+        }
+      }
+    }
+
+    function dragend() {
+      if (drag.value && !props.isDraggingUpdate) {
+        const value = percentageToNumber(dragWidth.value, props.total)
+        updateProgress(value)
+      }
+
+      drag.value = false
+      dragOffset.value = 0
+      dragWidth.value = 0
+      dragBarWidth.value = 0
+      dragBarX.value = 0
+    }
+
+    onMounted(() => {
+      window.addEventListener('mousedown', dragstart)
+      window.addEventListener('mousemove', dragging)
+      window.addEventListener('mouseup', dragend)
+
+      window.addEventListener('touchstart', dragstart)
+      window.addEventListener('touchmove', dragging)
+      window.addEventListener('touchend', dragend)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('mousedown', dragstart)
+      window.removeEventListener('mousemove', dragging)
+      window.removeEventListener('mouseup', dragend)
+
+      window.removeEventListener('touchstart', dragstart)
+      window.removeEventListener('touchmove', dragging)
+      window.removeEventListener('touchend', dragend)
+    })
+
+    return {
+      // Data
+      barRef,
+      drag,
+      dragOffset,
+      dragWidth,
+      dragBarWidth,
+      dragBarX,
+
+      // Computed
+      progressWidth,
+      progressStyle,
+
+      // Method
+      getEvent,
+      numberToPercentage,
+      percentageToNumber,
+      getPerWidth,
+      matches,
+      updateProgress,
+      dragstart,
+      dragging,
+      dragend
+    }
   }
 }
 </script>

@@ -1,26 +1,24 @@
-import { createLocalVue, mount } from '@vue/test-utils'
-import VueCookies from 'vue-cookies'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import PlayerVolume from '@/components/Player/PlayerVolume'
 
 const localVue = createLocalVue()
-localVue.use(VueCookies)
 
 describe('PlayerVolume', () => {
-  it('emitted on-change-progress (change volume)', () => {
-    const wrapper = mount(PlayerVolume, {
+  it('emitted change-progress event (change volume)', () => {
+    const wrapper = shallowMount(PlayerVolume, {
       localVue
     })
-    wrapper.find('#player-volume-progress').vm.$emit('on-change-progress', 0.56)
-    expect(wrapper.emitted('on-change-progress')[1]).toEqual([0.56])
+    wrapper.find('#player-volume-progress').vm.$emit('change-progress', 0.56)
+    expect(wrapper.emitted('change-progress')[1]).toEqual([0.56])
     expect(wrapper.vm.$cookies.get('YCSAUDIO_VOLUME')).toBe('0.56')
   })
 
   it('emitted on-muted', () => {
-    const wrapper = mount(PlayerVolume, {
+    const wrapper = shallowMount(PlayerVolume, {
       localVue
     })
     wrapper.find('.volume-muted').trigger('click')
-    expect(wrapper.emitted('on-muted')[1]).toEqual([true])
+    expect(wrapper.emitted('muted')[1]).toEqual([true])
     expect(wrapper.vm.$cookies.get('YCSAUDIO_MUTED')).toBe('1')
   })
 })

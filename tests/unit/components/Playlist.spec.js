@@ -1,9 +1,9 @@
+import { shallowMount } from '@vue/test-utils'
 import Playlist from '@/components/Playlist'
-import { mount } from '@vue/test-utils'
 
 describe('Playlist', () => {
   it('mounted playlist', () => {
-    const wrapper = mount(Playlist, {
+    const wrapper = shallowMount(Playlist, {
       mocks: {
         $route: {
           query: {

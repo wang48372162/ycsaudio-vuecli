@@ -1,14 +1,14 @@
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Search from '@/components/Search'
 
 describe('Search', () => {
   it('default search input is empty', () => {
-    const wrapper = mount(Search)
+    const wrapper = shallowMount(Search)
     expect(wrapper.vm.result).toBeUndefined()
   })
 
   it('should search audios and lists', () => {
-    const wrapper = mount(Search, {
+    const wrapper = shallowMount(Search, {
       mocks: {
         $route: {}
       },
@@ -41,7 +41,7 @@ describe('Search', () => {
   })
 
   it('should search audios and lists, $route has query listId', () => {
-    const wrapper = mount(Search, {
+    const wrapper = shallowMount(Search, {
       mocks: {
         $route: {
           query: {
@@ -78,7 +78,7 @@ describe('Search', () => {
   })
 
   it('should search for no results', async () => {
-    const wrapper = mount(Search)
+    const wrapper = shallowMount(Search)
 
     wrapper.setData({
       show: true,
