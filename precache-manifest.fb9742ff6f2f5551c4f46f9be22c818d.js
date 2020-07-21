@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "442540ea747b0fe2a965",
-    "url": "/ycsaudio/css/app.8b59cc62.css"
+    "revision": "c27362b2c8d97a50e213",
+    "url": "/ycsaudio/css/app.ab6a9950.css"
   },
   {
-    "revision": "410ce8fc9ab62364dd45",
+    "revision": "7fc9e17bb17c804397f9",
     "url": "/ycsaudio/css/chunk-vendors.b57e4bfb.css"
   },
   {
@@ -12,16 +12,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ycsaudio/img/logo.44aae1c4.png"
   },
   {
-    "revision": "07bf4ace7d3596fa3478ecd5e29386bb",
+    "revision": "af033827e819b229d61bfebde745492b",
     "url": "/ycsaudio/index.html"
   },
   {
-    "revision": "442540ea747b0fe2a965",
-    "url": "/ycsaudio/js/app.08f66957.js"
+    "revision": "c27362b2c8d97a50e213",
+    "url": "/ycsaudio/js/app.d6a0a212.js"
   },
   {
-    "revision": "410ce8fc9ab62364dd45",
-    "url": "/ycsaudio/js/chunk-vendors.847c928d.js"
+    "revision": "7fc9e17bb17c804397f9",
+    "url": "/ycsaudio/js/chunk-vendors.7b09d5be.js"
   },
   {
     "revision": "366e84d4419203328ce4bb6aac25d2a9",
