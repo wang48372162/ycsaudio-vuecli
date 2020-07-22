@@ -1,16 +1,11 @@
 <template>
   <div id="player-volume" :title="tooltipText">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      class="volume-muted volume-icon"
-      @click="mute"
-    >
-      <path class="svg-fill" :d="volumeIconPath" />
-      <path d="M0 0h24v24H0z" fill="none"/>
-    </svg>
+    <button class="volume-muted" @click="mute" title="靜音 (M)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path class="svg-fill" :d="volumeIconPath" />
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </button>
     <progress-bar
       id="player-volume-progress"
       :value="volume"
@@ -166,11 +161,16 @@ export default {
   width: 50px;
   max-width: 50px;
 }
-.volume-icon {
+.volume-muted {
+  display: inline-block;
   width: 24px;
   height: 24px;
+  background-color: transparent;
+  padding: 0;
   margin-right: 8px;
+  border-width: 0;
   cursor: pointer;
+  outline: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 </style>
