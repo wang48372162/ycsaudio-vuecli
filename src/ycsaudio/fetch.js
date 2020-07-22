@@ -1,12 +1,25 @@
 import audioDB from '@/audioDB.yml'
 
-export const getAudio = (id) => {
-  return audioDB.audios.find(v => v.id === Number(id))
+function formatAudio(audio) {
+  if (!/^https?:\/\//.test(audio.url)) {
+    audio.url = [
+      process.env.VUE_APP_AUDIO_BASE_URL.replace(/\/+$/, ''),
+      audio.url.replace(/^\/+/, '')
+    ].join('/')
+  }
+  return audio
 }
 
-export const getAudios = () => audioDB.audios
+export function getAudio(id) {
+  const audio = audioDB.audios.find(v => v.id === Number(id))
+  return audio ? formatAudio(audio) : null
+}
 
-export const getList = (id) => {
+export function getAudios() {
+  return audioDB.audios.map(formatAudio)
+}
+
+export function getList(id) {
   const list = audioDB.lists.find(v => v.id === id)
   if (!list) {
     return
@@ -18,9 +31,11 @@ export const getList = (id) => {
   return list
 }
 
-export const getLists = () => audioDB.lists
+export function getLists() {
+  return audioDB.lists
+}
 
-export const listContainAudio = (listId, audioId) => {
+export function listContainAudio(listId, audioId) {
   const list = getList(listId)
   if (!list) {
     return false
@@ -28,7 +43,7 @@ export const listContainAudio = (listId, audioId) => {
   return Boolean(list.audios.find(id => id === Number(audioId)))
 }
 
-export const getAudioIndexFromList = (listId, audioId) => {
+export function getAudioIndexFromList(listId, audioId) {
   const list = getList(listId)
   if (!list) {
     return
