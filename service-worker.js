@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ycsaudio/precache-manifest.fb9742ff6f2f5551c4f46f9be22c818d.js"
+  "/ycsaudio/precache-manifest.006d1bb91ad218c7566bac37c9554b12.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "ycsaudio"});
