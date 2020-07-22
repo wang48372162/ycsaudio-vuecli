@@ -49,7 +49,7 @@ export default {
       durationText,
       currentTimeText,
 
-      // Method
+      // Methods
       timeFormet,
       timeNumFormet
     }

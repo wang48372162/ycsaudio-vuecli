@@ -6,7 +6,6 @@
       <h1 class="player-title">{{ title }}</h1>
 
       <player-controls
-        ref="controlsRef"
         class="player-controls"
         :played="played"
         :repeat-status="repeatStatus"
@@ -28,7 +27,7 @@
 
         <player-volume
           ref="volumeRef"
-          :value="volume"
+          :volume="volume"
           :total="volumeTotal"
           :muted="muted"
           @change-progress="changeVolume"
@@ -36,11 +35,9 @@
         />
       </div>
 
-      <progress-bar
-        ref="progressbarRef"
-        id="player-progressbar"
-        :value="currentTime"
-        :total="duration"
+      <player-progress-bar
+        :current-time="currentTime"
+        :duration="duration"
         :error="error"
         @change-progress="changeProgress"
       />
@@ -49,20 +46,20 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getList, getAudioIndexFromList } from '@/ycsaudio'
 import PlayerControls from '@/components/Player/PlayerControls'
 import PlayerTime from '@/components/Player/PlayerTime'
 import PlayerVolume from '@/components/Player/PlayerVolume'
-import ProgressBar from '@/components/ProgressBar'
+import PlayerProgressBar from '@/components/Player/PlayerProgressBar'
 
 export default {
   components: {
     PlayerControls,
     PlayerTime,
     PlayerVolume,
-    ProgressBar
+    PlayerProgressBar
   },
   emits: ['before-load', 'loaded-dom', 'loaded', 'error'],
   props: {
@@ -90,8 +87,6 @@ export default {
   setup(props, { emit }) {
     const router = useRouter()
     const audioRef = ref(null)
-    const controlsRef = ref(null)
-    const progressbarRef = ref(null)
     const volumeRef = ref(null)
     const played = ref(false)
     const error = ref(false)
@@ -102,24 +97,15 @@ export default {
     const volumeTotal = ref(1)
     const muted = ref(false)
 
-    const audioIndex = computed(() => {
-      return props.id
-        ? getAudioIndexFromList(props.listId, props.id)
-        : null
-    })
+    const audioIndex = computed(() => props.id ? getAudioIndexFromList(props.listId, props.id) : null)
 
     const listAudios = computed(() => {
       const list = getList(props.listId)
       return list ? list.audios : null
     })
 
-    const repeatAll = computed(() => {
-      return repeatStatus.value === 1
-    })
-
-    const repeatOne = computed(() => {
-      return repeatStatus.value === 2
-    })
+    const repeatAll = computed(() => repeatStatus.value === 1)
+    const repeatOne = computed(() => repeatStatus.value === 2)
 
     const prevId = computed(() => {
       const index = audioIndex.value - 1
@@ -237,68 +223,6 @@ export default {
       }
     }
 
-    function keyEvent(e) {
-      const keys = [
-        { // Play/Pause (Space)
-          code: 32,
-          run() {
-            clickPlay()
-          }
-        },
-        { // Stop (S)
-          code: 83,
-          run() {
-            clickStop()
-          }
-        },
-        { // Repeat (R)
-          code: 82,
-          run() {
-            controlsRef.value.repeat()
-          }
-        },
-        { // Backward Audio (ArrowLeft)
-          code: 37,
-          run() {
-            progressbarRef.value.updateProgress(currentTime.value - 5)
-          }
-        },
-        { // Forward Audio (ArrowRight)
-          code: 39,
-          run() {
-            progressbarRef.value.updateProgress(currentTime.value + 5)
-          }
-        },
-        { // Volume Up (ArrowUp)
-          code: 38,
-          run() {
-            volumeRef.value.changeVolume(volume.value + 0.05)
-          }
-        },
-        { // Volume Down (ArrowDown)
-          code: 40,
-          run() {
-            volumeRef.value.changeVolume(volume.value - 0.05)
-          }
-        },
-        { // Muted (M)
-          code: 77,
-          run() {
-            volumeRef.value.clickMuted()
-          }
-        }
-      ]
-
-      keys.forEach(keyData => {
-        const hasKeyCode = e.keyCode === keyData.code
-        const isNotSearchInput = !e.target.matches('input.search-input')
-        if (hasKeyCode && keyData.run && isNotSearchInput) {
-          e.preventDefault()
-          keyData.run()
-        }
-      })
-    }
-
     onMounted(() => {
       // Audio init
       audioRef.value.preload = 'auto'
@@ -315,7 +239,6 @@ export default {
       }
       audioRef.value.oncanplay = function () {
         emit('loaded')
-
         volumeRef.value.initVolume()
       }
       audioRef.value.onplay = function () {
@@ -340,22 +263,13 @@ export default {
       audioRef.value.onvolumechange = function () {
         volume.value = this.volume
       }
-
-      // Keyboard event
-      window.addEventListener('keydown', keyEvent)
-    })
-
-    onUnmounted(() => {
-      window.removeEventListener('keydown', keyEvent)
     })
 
     watch(() => props.src, loadAudio)
 
     return {
-      // Data
+      // Refs
       audioRef,
-      controlsRef,
-      progressbarRef,
       volumeRef,
       played,
       error,
@@ -374,7 +288,7 @@ export default {
       prevId,
       nextId,
 
-      // Method
+      // Methods
       loadAudio,
       clickPlay,
       clickStop,
@@ -382,8 +296,7 @@ export default {
       repeat,
       changeProgress,
       changeVolume,
-      changeMuted,
-      keyEvent
+      changeMuted
     }
   }
 }

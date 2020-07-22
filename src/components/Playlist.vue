@@ -73,7 +73,7 @@ export default {
       listTitleTo,
       audioList,
 
-      // Method
+      // Methods
       audioTo,
       linkClass
     }

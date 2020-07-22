@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-wrapper" ref="barRef">
+  <div class="progress-wrapper" ref="progressRef">
     <div class="progress">
       <div class="bar-play" :style="progressStyle">
         <div class="bar-circle"></div>
@@ -13,6 +13,7 @@ import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { floatFormet } from '@/util'
 
 export default {
+  emmits: ['change-progress'],
   props: {
     value: {
       type: Number,
@@ -32,7 +33,7 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const barRef = ref(null)
+    const progressRef = ref(null)
     const drag = ref(false)
     const dragOffset = ref(0)
     const dragWidth = ref(0)
@@ -79,7 +80,7 @@ export default {
     }
 
     function matches(e, selector) {
-      return e.target.matches(`#${barRef.value.getAttribute('id')}${selector}`)
+      return e.target.matches(`#${progressRef.value.getAttribute('id')}${selector}`)
     }
 
     function updateProgress(value) {
@@ -99,8 +100,8 @@ export default {
         // Click on the circle
         drag.value = true
         dragOffset.value = e.offsetX ? e.offsetX - e.target.clientWidth / 2 : 0
-        dragBarWidth.value = barRef.value.clientWidth
-        dragBarX.value = barRef.value.offsetLeft
+        dragBarWidth.value = progressRef.value.clientWidth
+        dragBarX.value = progressRef.value.offsetLeft
         dragWidth.value = getPerWidth(e)
       } else if (
         matches(e, '.progress-wrapper') ||
@@ -109,8 +110,8 @@ export default {
         // Click on the progress bar
         drag.value = true
         dragOffset.value = 0
-        dragBarWidth.value = barRef.value.clientWidth
-        dragBarX.value = barRef.value.offsetLeft
+        dragBarWidth.value = progressRef.value.clientWidth
+        dragBarX.value = progressRef.value.offsetLeft
         dragWidth.value = getPerWidth(e)
       }
     }
@@ -161,8 +162,8 @@ export default {
     })
 
     return {
-      // Data
-      barRef,
+      // Refs
+      progressRef,
       drag,
       dragOffset,
       dragWidth,
@@ -173,7 +174,7 @@ export default {
       progressWidth,
       progressStyle,
 
-      // Method
+      // Methods
       getEvent,
       numberToPercentage,
       percentageToNumber,

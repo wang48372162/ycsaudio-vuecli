@@ -59,6 +59,7 @@
 <script>
 import { reactive, computed, inject, onMounted } from 'vue'
 import { getAudio } from '@/ycsaudio'
+import { hotkey } from '@/modules/hotkey'
 
 const REPEAT_NONE = 0
 const REPEAT_ALL = 1
@@ -217,14 +218,18 @@ export default {
       }
     })
 
+    hotkey(' ', play)
+    hotkey('S', stop)
+    hotkey('R', repeat)
+
     return {
-      // Data
+      // Refs
       btnText,
       path,
       classes,
       title,
 
-      // Method
+      // Methods
       play,
       stop,
       repeat,
