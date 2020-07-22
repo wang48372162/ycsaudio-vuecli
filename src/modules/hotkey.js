@@ -18,7 +18,10 @@ class Hotkey {
     const hotkeyStack = this.hotkeys.get(triggerdKey)
 
     // Enabled hotkey name log
-    if (this.hotkeyNameLog && eventType === 'keydown') {
+    if (this.hotkeyNameLog &&
+      eventType === 'keydown' &&
+      ['develop', 'local'].includes(process.env.NODE_ENV)) {
+      /* eslint-disable-next-line no-console */
       console.log(`Clicked key: "${triggerdKey}"`)
     }
 
