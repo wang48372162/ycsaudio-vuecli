@@ -18,6 +18,14 @@ import { setTitle, scrollToTop } from '@/util'
 import Player from '@/components/Player/Player'
 import Playlist from '@/components/Playlist'
 
+const { audio, fetchAudioData } = useAudio()
+const { list, fetchListData } = usePlaylist()
+
+function fetch(route) {
+  fetchAudioData(route.params.audio)
+  fetchListData(route.query.list)
+}
+
 export default {
   mixins: [useLayout],
   components: {
@@ -26,16 +34,9 @@ export default {
   },
   setup() {
     const router = useRouter()
-    const { audio, fetchAudioData } = useAudio()
-    const { list, fetchListData } = usePlaylist()
 
-    function visit(route) {
-      fetchAudioData(route.params.audio)
-      fetchListData(route.query.list)
-
-      if (!audio.id) {
-        router.push('/404')
-      }
+    function visit() {
+      if (!audio.id) router.push('/404')
 
       setTitle(audio || list)
       scrollToTop()
@@ -51,12 +52,14 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     nprogress.disableLoadedPageDone(to)
+    fetch(to)
     next(vm => {
       if (vm) vm.visit(to)
     })
   },
   beforeRouteUpdate(to, from, next) {
     nprogress.disableLoadedPageDone(to)
+    fetch(to)
     this.visit(to)
     next()
   }

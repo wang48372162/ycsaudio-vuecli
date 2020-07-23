@@ -8,7 +8,7 @@
       <player-controls
         class="player-controls"
         :played="played"
-        :repeat-status="repeatStatus"
+        :repeat-status="repeat.status"
         :list-id="listId"
         :prev-id="prevId"
         :next-id="nextId"
@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getList, getAudioIndexFromList } from '@/ycsaudio'
-import PlayerControls from '@/components/Player/PlayerControls'
+import PlayerControls, { REPEAT_NONE, REPEAT_ALL, REPEAT_SINGLE } from '@/components/Player/PlayerControls'
 import PlayerTime from '@/components/Player/PlayerTime'
 import PlayerVolume from '@/components/Player/PlayerVolume'
 import PlayerProgressBar from '@/components/Player/PlayerProgressBar'
@@ -90,7 +90,6 @@ export default {
     const volumeRef = ref(null)
     const played = ref(false)
     const error = ref(false)
-    const repeatStatus = ref(0)
     const duration = ref(0)
     const currentTime = ref(0)
     const volume = ref(1)
@@ -104,8 +103,11 @@ export default {
       return list ? list.audios : null
     })
 
-    const repeatAll = computed(() => repeatStatus.value === 1)
-    const repeatOne = computed(() => repeatStatus.value === 2)
+    const repeat = reactive({
+      status: REPEAT_NONE,
+      isAll: computed(() => repeat.status === REPEAT_ALL),
+      isSingle: computed(() => repeat.status === REPEAT_SINGLE)
+    })
 
     const prevId = computed(() => {
       const index = audioIndex.value - 1
@@ -114,7 +116,7 @@ export default {
 
       // If repeat mode is all,
       // and prev audio is last audio.
-      if (repeatAll.value && index === -1) {
+      if (repeat.isAll && index === -1) {
         return listAudios.value[listAudios.value.length - 1]
       }
       return listAudios.value[index]
@@ -129,7 +131,7 @@ export default {
       // If repeat mode is all,
       // and next audio is last audio.
       if (
-        repeatAll.value &&
+        repeat.isAll &&
         index === listAudios.value.length
       ) {
         return listAudios.value[0]
@@ -174,11 +176,11 @@ export default {
     function clickRepeat(status) {
       if (error.value) return null
 
-      repeatStatus.value = status
+      repeat.status = status
     }
 
-    async function repeat() {
-      if (props.listId && nextId.value && !repeatOne.value) {
+    async function repeatAudio() {
+      if (props.listId && nextId.value && !repeat.isSingle) {
         if (error.value) {
           await new Promise(resolve => {
             setTimeout(resolve, 3e3)
@@ -196,7 +198,7 @@ export default {
         })
       }
 
-      if (repeatOne.value && !error.value) {
+      if (repeat.isSingle && !error.value) {
         audioRef.value.currentTime = 0
         audioRef.value.play()
       }
@@ -227,7 +229,7 @@ export default {
       // Audio init
       audioRef.value.preload = 'auto'
 
-      // Autoplay
+      // Set autoplay
       audioRef.value.autoplay = props.autoplay
       played.value = props.autoplay
 
@@ -248,13 +250,13 @@ export default {
         played.value = false
       }
       audioRef.value.onended = function () {
-        repeat()
+        repeatAudio()
       }
       audioRef.value.onerror = function () {
         error.value = true
         emit('error')
         emit('loaded')
-        repeat()
+        repeatAudio()
       }
       audioRef.value.ontimeupdate = function () {
         duration.value = this.duration
@@ -262,6 +264,15 @@ export default {
       }
       audioRef.value.onvolumechange = function () {
         volume.value = this.volume
+      }
+
+      // Play audio
+      if (props.autoplay) {
+        audioRef.value.play().then(() => {
+          //
+        }).catch(e => {
+          played.value = false
+        })
       }
     })
 
@@ -273,7 +284,7 @@ export default {
       volumeRef,
       played,
       error,
-      repeatStatus,
+      repeat,
       duration,
       currentTime,
       volume,
@@ -283,8 +294,6 @@ export default {
       // Computed
       audioIndex,
       listAudios,
-      repeatAll,
-      repeatOne,
       prevId,
       nextId,
 
@@ -293,7 +302,7 @@ export default {
       clickPlay,
       clickStop,
       clickRepeat,
-      repeat,
+      repeatAudio,
       changeProgress,
       changeVolume,
       changeMuted

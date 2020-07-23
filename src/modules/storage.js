@@ -8,7 +8,7 @@ export default {
         return JSON.parse(this.get(key))
       },
       set(key, value) {
-        return localStorage.setItem(JSON.stringify(key), value)
+        return localStorage.setItem(key, JSON.stringify(value))
       },
       remove(key) {
         return localStorage.removeItem(key)

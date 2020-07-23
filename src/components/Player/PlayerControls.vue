@@ -61,9 +61,9 @@ import { reactive, computed, inject, onMounted } from 'vue'
 import { getAudio } from '@/ycsaudio'
 import { hotkey } from '@/modules/hotkey'
 
-const REPEAT_NONE = 0
-const REPEAT_ALL = 1
-const REPEAT_SINGLE = 2
+export const REPEAT_NONE = 0
+export const REPEAT_ALL = 1
+export const REPEAT_SINGLE = 2
 
 export default {
   emits: ['play', 'stop', 'update-repeat'],
@@ -208,12 +208,12 @@ export default {
 
     onMounted(() => {
       // Repeat status init
-      const REPEAT_STATUS = Number(storage.get('YCSAUDIO_REPEAT_STATUS'))
-      if (REPEAT_STATUS) {
-        if (!props.listId && REPEAT_STATUS === REPEAT_ALL) {
+      const status = Number(storage.get('YCSAUDIO_REPEAT_STATUS'))
+      if (status !== null) {
+        if (!props.listId && status === REPEAT_ALL) {
           updateRepeatStatus(REPEAT_SINGLE)
         } else {
-          updateRepeatStatus(REPEAT_STATUS)
+          updateRepeatStatus(status)
         }
       }
     })
